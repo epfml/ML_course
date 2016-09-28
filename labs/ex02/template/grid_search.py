@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Exercise 2.
+"""Problem Sheet 2.
 
 Grid Search
 """
@@ -23,6 +23,6 @@ def get_best_parameters(w0, w1, losses):
 
 # ***************************************************
 # INSERT YOUR CODE HERE
-# TODO: Paste your implementation of grid_search 
+# TODO: Paste your implementation of grid_search
 #       here when it is done.
 # ***************************************************
