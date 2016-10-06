@@ -48,7 +48,7 @@ def build_model_data(height, weight):
     return y, tx
 
 
-def batch_iter(y, tx, batch_size, shuffle=True):
+def batch_iter(y, tx, batch_size, num_batches=1, shuffle=True):
     """
     Generate a minibatch iterator for a dataset.
     Takes as input two iterables (here the output desired values 'y' and the input data 'tx')
@@ -59,7 +59,6 @@ def batch_iter(y, tx, batch_size, shuffle=True):
         <DO-SOMETHING>
     """
     data_size = len(y)
-    num_batches = int(np.ceil(data_size / batch_size))
 
     if shuffle:
         shuffle_indices = np.random.permutation(np.arange(data_size))

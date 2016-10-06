@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
-"""Exercise 2.
+"""Problem Sheet 2.
 
 Grid Search
 """
 
 import numpy as np
 #import costs
-
 
 def generate_w(num_intervals):
     """Generate a grid of values for w0 and w1."""
@@ -25,3 +24,4 @@ def grid_search(y, tx, w0, w1):
     """Algorithm for grid search."""
     losses = [[compute_cost(y, tx, (i,j)) for j in w1] for i in w0 ]
     return np.array(losses)
+
