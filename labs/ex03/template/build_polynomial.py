@@ -12,4 +12,4 @@ def build_poly(x, degree):
     # this function should return the matrix formed
     # by applying the polynomial basis to the input data
     # ***************************************************
-    raise NotImplementedError
+    return np.array([[ x_n ** m for m in range(degree)] for x_n in x])
