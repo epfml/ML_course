@@ -2,7 +2,7 @@
 """some helper functions."""
 
 import numpy as np
-
+from grid_search import *
 
 def load_data():
     """load data."""
