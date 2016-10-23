@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 from helpers import batch_iter
+from proj1_helpers import batch_iter
 
 def compute_gradient(y, tx, w):
 	"""Compute gradient for batch data."""
