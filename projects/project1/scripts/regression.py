@@ -101,9 +101,9 @@ def logistic_regression(y, tx, gamma, max_iters):
 	w = logistic_regression_newton_method(y, tx, gamma, max_iters)
 #	w = logistic_regression_gradient_descent(y, tx, gamma, max_iters)
 
-	#loss = calculate_nll(y, tx, w)
+	loss = calculate_nll(y, tx, w)
 
-	return w
+	return loss, w
 
 """
 	Penalized logistic regression
