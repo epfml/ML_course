@@ -22,3 +22,17 @@ def compute_loss(y, tx, w):
     e = y - tx.dot(w)
     return calculate_mse(e)
     # return calculate_mae(e)
+
+
+def calculate_nll(y, tx, w):
+	"""calculate the negative log likelihood cost."""
+	N = y.shape[0]
+	xw = np.dot(tx, w)
+
+	loss = np.log(1 + np.exp(xw)) - y*xw
+
+
+	#for i in range (N):
+	#    loss = loss + np.log(1 + np.exp(xw[i])) - y[i]*xw[i]
+
+	return -np.sum(loss, axis=0)
