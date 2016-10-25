@@ -30,7 +30,9 @@ def sigmoid(t):
 
 def calculate_gradient(y, tx, w):
 	"""compute the gradient of loss."""
-	return tx.T.dot(sigmoid(np.dot(tx, w)) - y)
+	grad = tx.T.dot(sigmoid(np.dot(tx, w))) - y
+		 
+	return grad
 
 
 """
@@ -42,7 +44,7 @@ def learning_by_gradient_descent(y, tx, w, gamma):
 	Do one step of gradient descent using logistic regression.
 	Return the loss and the updated w.
 	"""
-	loss = calculate_loss(y, tx, w)
+	loss = calculate_nll(y, tx, w)
 
 	grad = calculate_gradient(y, tx, w)
 
@@ -70,7 +72,7 @@ def calculate_hessian(y, tx, w):
 
 	S = sigmoid(xw) * (1-sigmoid(xw)) * np.identity(N)
 
-	return tx.T.dot(S.dot(tx))
+	return np.dot(tx.T, np.dot(S, tx))
 
 def learning_by_newton_method(y, tx, w, gamma):
 	"""
@@ -96,12 +98,12 @@ def logistic_regression(y, tx, gamma, max_iters):
 	Do the logistic regression using gradient descent 
 	or Newton's technique, return loss, w
 	"""
-#	w = logistic_regression_newton_method(y, tx, gamma, max_iters)
-	w = logistic_regression_gradient_descent(y, tx, gamma, max_iters)
+	w = logistic_regression_newton_method(y, tx, gamma, max_iters)
+#	w = logistic_regression_gradient_descent(y, tx, gamma, max_iters)
 
-	loss = calculate_nll(y, tx, w)
+	#loss = calculate_nll(y, tx, w)
 
-	return loss, w
+	return w
 
 """
 	Penalized logistic regression
