@@ -27,9 +27,11 @@ def compute_loss(y, tx, w):
 def calculate_nll(y, tx, w):
 	"""calculate the negative log likelihood cost."""
 	N = y.shape[0]
-	xw = np.dot(tx, w)
+	xw = np.dot(tx, w) 
 
-	loss = np.log(1 + np.exp(xw)) - y*xw
+	yxw = y * xw
+
+	loss = np.log(1 + np.exp(xw)) - yxw
 
 
 	#for i in range (N):
