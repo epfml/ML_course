@@ -14,6 +14,7 @@ def compute_gradient(y, tx, w):
 
 def least_squares_GD(y, tx, gamma, max_iters):
 	"""Gradient descent algorithm."""
+
 	w = np.zeros((1, tx.shape[1]))[0]
 
 	for n_iter in range(max_iters):
