@@ -65,7 +65,7 @@ def plot_image_compression(original_image, image, assignments, mu, k):
     # visualization
     image_reconstruct = mu[assignments]
     # image_reconstruct = np.squeeze(image_reconstruct, axis=1)
-    image_reconstruct = image_reconstruct.reshape(original_image.shape)
+    image_reconstruct = image_reconstruct.astype('uint8').reshape(original_image.shape)
     ax2 = fig.add_subplot(1, 2, 2)
     ax2.imshow(image_reconstruct, cmap='Greys_r')
     plt.draw()
