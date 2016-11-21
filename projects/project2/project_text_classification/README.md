@@ -33,11 +33,12 @@ Load the training tweets given in `pos_train.txt`, `neg_train.txt` (or a suitabl
 ```build_vocab.sh
 cut_vocab.sh
 python3 pickle_vocab.py
-python3 cooc.py```
+python3 cooc.py
+```
 
 Now given the co-occurrence matrix and the vocabulary, it is not hard to train GloVe word embeddings, that is to compute an embedding vector for wach word in the vocabulary. We suggest to implement SGD updates to train the matrix factorization, as in
 
-```glove_solution.py```
+`glove_solution.py`
 
 Once you tested your system on the small set of 10% of all tweets, we suggest you run on the full datasets `pos_train_full.txt`, `neg_train_full.txt`
 
