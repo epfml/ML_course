@@ -22,7 +22,7 @@ For additional resources on how the notebook system works, we recommend
 
 #### Examples
 
-We provide you with an example of a notebook for [this first lab](https://github.com/epfml/ML_course/tree/master/labs/ex1), but if you want to see some more examples already, feel free to take a look at
+We provide you with an example of a notebook for [this first lab](https://github.com/epfml/ML_course/tree/master/labs/ex01), but if you want to see some more examples already, feel free to take a look at
 
 * The introductory notebooks available at [Try Jupiter](https://try.jupyter.org/). It spawns an instance of the Jupyter Notebook, which won't save any of your changes.
   *Note: it might not be available if their server is under too much load.*
@@ -85,7 +85,7 @@ Here are some additionnal ressources on Python:
 
 ## NumPy and Vector Calculations
 
-Our `npprimer.ipynb` notebook as part of the first lab has some useful commands and exercises to help you get started with NumPy.
+Our [npprimer.ipynb](https://github.com/epfml/ML_course/blob/master/labs/ex01/npprimer.ipynb) notebook as part of the first lab has some useful commands and exercises to help you get started with NumPy.
 
 If you are familiar with Matlab, a good starting point is [this guide](http://docs.scipy.org/doc/numpy-dev/user/numpy-for-matlab-users.html). Be careful that we will use way more the `array` structure compared to the `matrix` structure.
 
