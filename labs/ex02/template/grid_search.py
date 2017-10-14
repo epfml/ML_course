@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-""" Grid Search"""
+"""Grid Search"""
 
 import numpy as np
 import costs
@@ -16,10 +16,3 @@ def get_best_parameters(w0, w1, losses):
     """Get the best w from the result of grid search."""
     min_row, min_col = np.unravel_index(np.argmin(losses), losses.shape)
     return losses[min_row, min_col], w0[min_row], w1[min_col]
-
-
-# ***************************************************
-# INSERT YOUR CODE HERE
-# TODO: Paste your implementation of grid_search
-#       here when it is done.
-# ***************************************************
