@@ -7,7 +7,7 @@ def compute_mse(y, tx, w):
    
     # number of samples
     N = len(y)
-    
+
     # compute the error
     e = y-tx.dot(w)
     
