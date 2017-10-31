@@ -1,0 +1,117 @@
+\documentclass{../../tex_import/ETHuebung_english}
+
+\usepackage{../../tex_import/exercise_ml}
+
+\input{../../tex_import/definitions} %our customized .tex macros
+
+\begin{document}
+
+
+\makeheader{3, Oct 5, 2017}{Theory Questions Part}
+
+
+\begin{enumerate}
+	
+
+\item{Warmup :}
+	\begin{enumerate}
+		
+		\item We want to show that the sum of two convex functions is convex as well.
+
+		Let $f,g,h \colon X \to \mathbb{R}$ such that $\forall x \in X \quad h(x) = f(x) + g(x)$ and $f$, $g$ are convex. Then 
+		
+		$\forall x \in X \quad \lambda \in [0,1]$:
+		\begin{equation*}
+			\begin{split}
+				h(\lambda x + (1-\lambda) y ) &= f(\lambda x + (1-\lambda) y ) + g(\lambda x + (1-\lambda) y )\\
+				&\le \lambda f(x) + (1-\lambda)f(y) + \lambda g(x) + (1-\lambda)g(y)\\
+				&= \lambda \left[f(x) +  g(x)\right] + (1-\lambda)\left[f(y) + g(y)\right]\\
+				&= \lambda h(x) + (1-\lambda)h(y)\\
+			\end{split}
+		\end{equation*}
+	
+		Therefore the sum of two convex fonction is also convex.
+		
+		\item In order to see wether we can solve $\mathbf{A}\xv = \bv$ we want to look at the relative rank of $\mathbf{A}$ and $[\mathbf{A}|\bv]$ (the extended matrix). Suppose that $\mathbf{A}$ and $\bv$ have size respectively $m \times n$ and $m$ then $[\mathbf{A}|\bv]$ has size $m \times (n+1)$. Then :
+			\begin{itemize}
+				\item $\mathbf{A}$ is a square matrix s.t. $rank(\mathbf{A})=m$ : the system has a \textbf{unique solution} 
+				\item $rank(\mathbf{A}) < rank([\mathbf{A}|\bv])$ : the system has \textbf{no solution} 					
+				\item $rank(\mathbf{A}) = rank([\mathbf{A}|\bv]) < n$ : the system has \textbf{infinitely many solutions} 					
+			\end{itemize}
+
+		\item The computational complexity of (supposing that we start with $\wv$ for GD and SGD): 
+			\begin{itemize}
+				\item Grid Search : Let $|W|_i$ be the number of different values we consider for the $i^{th}$ dimension of $\wv$ then $O((\prod_i|W|_i )\times N)$. (if we consider the same number of steps for each dimension then $O(|W|^D\times N)$.
+				\item GD for Linear regression with MSE : $O(N.D)$
+				\item SGD for Linear regression with MSE : Let $B$ be the batch. We have the MSE loss function :
+					\begin{equation}
+						\mathcal{L}_B(\wv) = \frac{1}{2|B|} \sum_{n \in B} (y_n - \sum_{l=1}^D x_{nl}w_{l})^2
+					\end{equation}
+					Then if we compute the partial differential w.r.t. $\wv_{j}$ we have :
+					\begin{equation}
+						\frac{\partial\mathcal{L}_B}{\partial w_{j}}(\wv) = -\frac{1}{B} \underbrace{\sum_{n\in B} (y_n - \underbrace{\sum_{l=1}^D x_{nl}w_{l}}_{\alpha_n}) \times x_{nj}}_{O(|B|)\text{ considering  }\alpha_n \text{ a constant}}
+					\end{equation}
+					Notice that $\alpha_n$ doesn't depend on $j$, its computation takes $O(D)$ and is computed only once for all dimensions per sample. Therefore computing $\{\alpha_n : n \in B\}$ takes $O(|B|.D)$ and can be considered as constant for the rest of the analysis.
+					
+					Then to compute all the dimensions of the gradient, we will need all the partial derivatives. Therefore the total complexity is $O(|B|D+|B|D) = O (|B|D)$
+			\end{itemize}
+		
+		\item We wish to find $\wv = (w_1,w_2)$ such that it satisfies $\xv^\top\wv = w_1 x_1 + w_2 x_2 = y$. To do so we solve the systems (computation behind fairly easy we won't give any detail here) :
+			
+			For the first case :
+			\begin{equation*}
+				\begin{cases}
+					w_1 = -100\\
+					w_2 = -200
+				\end{cases}
+			\end{equation*}
+			
+			For the second case :
+			\begin{equation*}
+				\begin{cases}
+					w_1 = 40'000\\
+					w_2 = 79'800
+				\end{cases}
+			\end{equation*}
+	\end{enumerate}
+	
+	\item Cost Functions :
+		\begin{enumerate}
+			\item No need for correction (remember that the cost function is in a 3-dimensional space)
+			\item We want to compute the gradient of :
+				\begin{equation*}
+					\mathcal{L} = \frac{1}{N} \sum_{n=1}^{N}{\frac{[x_n^\top\wv - y_n]^2}{y_n^2 +\epsilon}}
+				\end{equation*}
+				A good first approach to compute a gradient is to compute one of its component :
+				\begin{equation*}
+					\frac{\partial\mathcal{L}}{\partial w_i} = \frac{1}{N} \sum_{n=1}^{N}{\frac{2 x_{ni} [\xv_n^\top\wv - y_n]}{y_n^2 +\epsilon}}
+				\end{equation*}
+				
+			\item Then we can identify :
+				\begin{equation}
+					\nabla_w\mathcal{L} = \frac{2}{N}\frac{\mathbf{X}^\top (\mathbf{X}\wv-\yv)}{y_n^2 +\epsilon} = \frac{2}{N}\frac{\mathbf{X}^\top (-\ev)}{y_n^2 +\epsilon} 
+				\end{equation}
+				Let $\widetilde\ev = \frac{\ev}{y_n^2 +\epsilon}$ where the division is computed in an element-wise manner. 
+				
+				Finally :
+				\begin{equation}
+					\nabla_w\mathcal{L} = -\frac{2}{N}\mathbf{X}^\top \widetilde\ev				
+				\end{equation}
+				
+			\item You can see that the function is very sensitive to outliers, as the relative error is extremely high. If we call $\mathcal{L}_1$ the cost function we've been working with for the whole exercise and $\mathcal{L}_2$ the one that we want to compare it with we have :
+			
+				\begin{center}
+					\begin{tabular}{r|cc}
+					          & $\mathcal{L}_n$ & $\mathcal{L}_n'$ 	\\
+						\hline
+						$y=1$ and $\hat{y}=10$  &   $40.5$ &  $\approx 0.54814	$\\
+						$y=1$ and $\hat{y}=100$ &   $4'900.5$ & $\approx 2.90120$\\
+					\end{tabular}
+				\end{center}
+				
+		\end{enumerate}
+	
+	
+\end{enumerate}
+
+\end{document}
