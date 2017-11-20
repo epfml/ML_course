@@ -57,15 +57,20 @@ def plot(data, mu, mu_old, out_dir):
 
 def plot_image_compression(original_image, image, assignments, mu, k):
     """plot histgram."""
+    
     # init the plot
     fig = plt.figure()
     ax1 = fig.add_subplot(1, 2, 1)
     ax1.imshow(original_image, cmap='Greys_r')
 
     # visualization
-    image_reconstruct = mu[assignments]
-    # image_reconstruct = np.squeeze(image_reconstruct, axis=1)
+    image_reconstruct = np.zeros((assignments.shape[0], mu.shape[1]))
+
+    for n in range(assignments.shape[0]):
+        image_reconstruct[n,:] = mu[np.where(assignments[n,:]==1)]
+    
     image_reconstruct = image_reconstruct.astype('uint8').reshape(original_image.shape)
+    
     ax2 = fig.add_subplot(1, 2, 2)
     ax2.imshow(image_reconstruct, cmap='Greys_r')
     plt.draw()
