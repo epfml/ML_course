@@ -9,6 +9,7 @@ from helpers import de_standardize, standardize
 def visualization(y, x, mean_x, std_x, w, save_name):
     """visualize the raw data as well as the classification result."""
     fig = plt.figure()
+    
     # plot raw data
     x = de_standardize(x, mean_x, std_x)
     ax1 = fig.add_subplot(1, 2, 1)
@@ -23,12 +24,11 @@ def visualization(y, x, mean_x, std_x, w, save_name):
     ax1.set_xlabel("Height")
     ax1.set_ylabel("Weight")
     ax1.grid()
+    
     # plot raw data with decision boundary
     ax2 = fig.add_subplot(1, 2, 2)
-    height = np.arange(
-        np.min(x[:, 0]), np.max(x[:, 0]) + 0.01, step=0.01)
-    weight = np.arange(
-        np.min(x[:, 1]), np.max(x[:, 1]) + 1, step=1)
+    height = np.arange(np.min(x[:, 0]), np.max(x[:, 0]) + 0.01, step=0.01)
+    weight = np.arange(np.min(x[:, 1]), np.max(x[:, 1]) + 1, step=1)
     hx, hy = np.meshgrid(height, weight)
     hxy = (np.c_[hx.reshape(-1), hy.reshape(-1)] - mean_x) / std_x
     x_temp = np.c_[np.ones((hxy.shape[0], 1)), hxy]
