@@ -30,6 +30,10 @@ def main():
             logn = np.log(n)
             fn = min(1.0, (n / nmax) ** alpha)
             x, y = xs[ix, :], ys[jy, :]
+
+            # fix the y value by copying data in x, y
+            x, y = map(np.copy, [x, y])
+
             scale = 2 * eta * fn * (logn - np.dot(x, y))
             xs[ix, :] += scale * y
             ys[jy, :] += scale * x
