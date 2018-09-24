@@ -87,7 +87,7 @@ Here are some additionnal ressources on Python:
 
 Our [npprimer.ipynb](https://github.com/epfml/ML_course/blob/master/labs/ex01/npprimer.ipynb) notebook as part of the first lab has some useful commands and exercises to help you get started with NumPy.
 
-If you are familiar with Matlab, a good starting point is [this guide](http://docs.scipy.org/doc/numpy-dev/user/numpy-for-matlab-users.html). Be careful that we will use way more the `array` structure compared to the `matrix` structure.
+If you are familiar with Matlab, a good starting point is [this guide](http://docs.scipy.org/doc/numpy/user/numpy-for-matlab-users.html). Be careful that we will use way more the `array` structure compared to the `matrix` structure.
 
 A good and probably more complete reference is [this one](http://www.engr.ucsb.edu/~shell/che210d/numpy.pdf).
 
