@@ -1,0 +1,82 @@
+\documentclass{../tex_import/ETHuebung_english}
+
+\usepackage{../tex_import/exercise_ml}
+
+\input{../tex_import/definitions} %our customized .tex macros
+
+\begin{document}
+
+
+\makeheader{6, Nov 1, 2018}{Theory Questions}
+
+\section{Convexity} %lab06
+
+Recall that we say that a function $f$ is \emph{convex} if the domain of $f$ is a convex set and
+\[	f(\theta \xv + (1 - \theta) \yv) \leq \theta f(\xv) + (1 - \theta) f(\yv), \text{ for all } \xv,\yv \text{ in the domain of } f,\ 0 \leq \theta \leq 1.	\]
+And \emph{strictly convex} if
+\[	f(\theta \xv + (1 - \theta) \yv) < \theta f(\xv) + (1 - \theta) f(\yv), \text{ for all } \xv\ne\yv \text{ in the domain of } f,\ 0 < \theta < 1.	\]
+
+Prove the following assertions.
+\begin{enumerate}
+	\item The affine function $f(x) = ax + b$ is convex, where $a, b$ and $x$ are scalars.
+
+	\item If multiple functions $f_n(\xv)$ are convex over a fixed domain, then their sum $g(\xv) = \sum_n f_n(\xv)$ is convex over the same domain.
+
+	\item Take $f, g: \R \rightarrow \R$ to be convex functions and $g$ to be increasing. Then $g \circ f$ is also convex.
+
+	Note: A function $g$ is increasing if $a \geq b \Leftrightarrow g(a) \geq g(b)$. An example of a convex and increasing function is $\exp(x), x \in \R$.
+
+	\item If $f : \R \rightarrow \R$ is convex, then $g : \R^D \rightarrow \R$, where $g(\xv) := f(\wv^\top\xv + b)$, is also convex. Here, $\wv$ is a constant vector in $\R^D$, $b$ is a constant in $\R$ and $\xv \in \R^D$.
+
+	\item Let $f : \R^D \rightarrow \R$ be strictly convex. Let $\xv^\star \in \R^D$ be a global minimizer of $f$. Show that this global minimizer is unique.
+	Hint: Do a proof by contradiction.
+\end{enumerate}
+
+
+
+\section{Extension of Logistic Regression to Multi-Class Classification}
+%lab06
+Suppose we have a classification dataset with $N$ data example pairs $\{\xv_n, y_n\}$, $n \in [1, N]$, and $y_n$ is a categorical variable over~$K$ categories, $y_n \in \{1, 2, ..., K\}$. We wish to fit a linear model in a similar spirit to logistic regression, and we will use the $\text{softmax}$ function to link the linear inputs to the categorical output, instead of the logistic function.
+
+We will have $K$ sets of parameters $\wv_k$, and define $\eta_{nk} = \wv_k^\top\xv_n$ and compute the probability distribution of the output as follows,
+\[	\mathbb{P}[y_n = k \,|\, \xv_n, \wv_1, ..., \wv_K] = \frac{\exp(\eta_{nk})}{\sum_{j=1}^K \exp(\eta_{nj})}.	\]
+Note that we indeed have a probability distribution, as $\sum_{k=1}^K \mathbb{P}[y_n = k \,|\, \xv_n, \wv_1, ..., \wv_K] = 1$. To make the model \emph{identifiable}, we will fix $\wv_K$ to $\mathbf{0}$, which means we have $K-1$ sets of parameters to learn. As in logistic regression, we will assume that each $y_n$ is i.i.d., i.e.,
+\[	\mathbb{P}[\yv \,|\, \mathbf{X}, \wv_1, ..., \wv_K] = \prod_{n=1}^N	\mathbb{P}[y_n \,|\, \xv_n, \wv_1, ..., \wv_K]. \]
+
+\begin{enumerate}
+	\item Derive the log-likelihood for this model.
+	\item Derive the gradient with respect to each $\wv_k$.
+	\item Show that the negative of the log-likelihood is convex with respect to $\wv_k$.
+\end{enumerate}
+
+
+\section{Mixture of Linear Regression}
+In Project-I, you worked on a regression dataset with two or more distinct clusters.
+For such datasets, a mixture of linear regression models is preferred over just one linear regression model.
+
+Consider a regression dataset with $N$ pairs $\{ y_n, \xv_n \}$.
+Similar to Gaussian mixture model (GMM), let $r_n \in \{ 1, 2, \ldots, K \}$ index the mixture component.
+Distribution of the output $y_n$ under the $k^{\text{th}}$ linear model is defined as follows:
+\begin{align*}
+	p(y_n | \xv_n, r_n = k, \wv) := \mathcal{N} (y_n | \wv_k^\top \tilde{\xv}_n, \sigma^2)
+\end{align*}
+Here, $ \wv_k $ is the regression parameter vector for the $k^{\text{th}}$ model with $\wv$ being a vector containing all $\wv_k$. Also, $\tilde{\xv}_n = [1, \xv_n^\top]^\top$.
+
+\begin{enumerate}
+\item Define $\rv_n$ to be a binary vector of length $K$ such that all the entries are $0$ except a $k^{\text{th}}$ entry, i.e., $r_{nk} = 1$, implying that $\xv_n$ is assigned to the $k^{\text{th}}$ mixture.
+Rewrite the likelihood $p(y_n | \xv_n, \wv, \rv_n)$ in terms of $r_{nk}$.
+
+\item Write the expression for the joint distribution $p(\yv | \Xm, \wv, \rv)$ where $\rv$ is the set of all $\rv_1, \rv_2, \ldots, \rv_N$.
+
+\item Assume that $r_n$ follows a multinomial distribution $p(r_n = k | \piv) = \pi_k$,
+with $ \piv = [\pi_1, \pi_2, \ldots, \pi_K] $. Derive the marginal distribution $p(y_n | \xv_n, \wv, \piv)$ obtained after marginalizing $r_n$ out.
+
+\item Write the expression for the maximum likelihood estimator $\costfunc (\wv, \piv) := - \log{p(\yv | \Xm, \wv, \piv)}$ in terms of data $\yv$ and $\Xm$, and parameters $\wv$ and $\piv$.
+
+\item Is $\costfunc$ jointly-convex with respect to $\wv$ and $\piv$? Is the model identifiable? Prove your answers.
+\end{enumerate}
+
+
+
+
+\end{document}
