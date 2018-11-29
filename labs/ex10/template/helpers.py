@@ -15,7 +15,7 @@ def read_txt(path):
 
 def load_data(path_dataset):
     """Load data in text format, one rating per line, as in the kaggle competition."""
-    data = read_txt(path_dataset)[1:]
+    data = read_txt(path_dataset)[0:]
     return preprocess_data(data)
 
 
