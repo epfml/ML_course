@@ -24,7 +24,7 @@ For additional resources on how the notebook system works, we recommend
 
 We provide you with an example of a notebook for [this first lab](https://github.com/epfml/ML_course/tree/master/labs/ex01), but if you want to see some more examples already, feel free to take a look at
 
-* The introductory notebooks available at [Try Jupiter](https://try.jupyter.org/). It spawns an instance of the Jupyter Notebook, which won't save any of your changes.
+* The introductory notebooks available at [Try Jupyter](https://try.jupyter.org/). It spawns an instance of the Jupyter Notebook, which won't save any of your changes.
   *Note: it might not be available if their server is under too much load.*
 * [A gallery of interesting IPython Notebooks](https://github.com/jupyter/jupyter/wiki/A-gallery-of-interesting-Jupyter-Notebooks) by the Ipython Notebook team
 
