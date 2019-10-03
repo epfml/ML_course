@@ -14,11 +14,15 @@ def calculate_mae(e):
     return np.mean(np.abs(e))
 
 
-def compute_loss(y, tx, w):
+def compute_loss(y, tx, w, type='mse'):
     """Calculate the loss.
-
     You can calculate the loss using mse or mae.
+    By default the loss is mse. Raise exception if type is not mse nor mae
     """
+    if (type is not 'mae' && type is not 'mse'):
+       raise ValueError("type is not mse nor mae")
     e = y - tx.dot(w)
-    return calculate_mse(e)
-    # return calculate_mae(e)
+    if type is 'mse':
+        return calculate_mse(e)
+    else :
+        return calculate_mae(e)

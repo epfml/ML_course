@@ -8,9 +8,9 @@ def compute_gradient(y, tx, w):
     return grad, err
 
 def least_squares_GD(y, tx, initial_w, max_iters, gamma):
-    '''
+    """
     Linear regression using gradient descent. Returns the array of losses and the array of weights ws.
-    '''
+    """
     ws = [initial_w]
     losses = []
     w = initial_w
@@ -54,4 +54,20 @@ def stochastic_gradient_descent(
 
 """        print("SGD({bi}/{ti}): loss={l}, w0={w0}, w1={w1}".format(
               bi=n_iter, ti=max_iters - 1, l=loss, w0=w[0], w1=w[1]))"""
-    return losses, ws
+    return losses, w
+
+
+#Least square normal equation
+def least squares(y, tx): 
+    """Least squares regression using normal equations  """
+    w = np.linalg.solve(tx,y)
+    loss=compute_loss(y, tx, w) 
+    return loss, w
+
+
+
+
+
+
+
+
