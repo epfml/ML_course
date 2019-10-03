@@ -19,7 +19,7 @@ def compute_loss(y, tx, w, type='mse'):
     You can calculate the loss using mse or mae.
     By default the loss is mse. Raise exception if type is not mse nor mae
     """
-    if (type is not 'mae' && type is not 'mse'):
+    if (type is not 'mae' and type is not 'mse'):
        raise ValueError("type is not mse nor mae")
     e = y - tx.dot(w)
     if type is 'mse':

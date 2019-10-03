@@ -1,4 +1,6 @@
-from costs import *
+from scripts.costs import *
+from scripts.proj1_helpers import *
+from scirpts.helpers import *
 
 #Least squares gradient descent
 def compute_gradient(y, tx, w):
@@ -6,23 +8,6 @@ def compute_gradient(y, tx, w):
     err = y - tx.dot(w)
     grad = -tx.T.dot(err) / len(err)
     return grad, err
-
-def least_squares_GD(y, tx, initial_w, max_iters, gamma):
-    """
-    Linear regression using gradient descent. Returns the array of losses and the array of weights ws.
-    """
-    ws = [initial_w]
-    losses = []
-    w = initial_w
-    for n_iter in range(max_iters):
-        grad, err = compute_gradient(y, tx, w)
-        loss = calculate_mse(err)
-        w = w - gamma * grad
-        ws.append(w)
-        losses.append(loss)
-"""        print("Gradient Descent({bi}/{ti}): loss={l}, w0={w0}, w1={w1}".format(
-              bi=n_iter, ti=max_iters - 1, l=loss, w0=w[0], w1=w[1]))"""
-    return losses, ws
 
 
 #Stochastic gradient descent
@@ -52,13 +37,39 @@ def stochastic_gradient_descent(
             ws.append(w)
             losses.append(loss)
 
-"""        print("SGD({bi}/{ti}): loss={l}, w0={w0}, w1={w1}".format(
+    """        print("SGD({bi}/{ti}): loss={l}, w0={w0}, w1={w1}".format(
               bi=n_iter, ti=max_iters - 1, l=loss, w0=w[0], w1=w[1]))"""
     return losses, w
 
 
+#########################################33
+
+def least_squares_GD(y, tx, initial_w, max_iters, gamma):
+    """
+    Linear regression using gradient descent. Returns the array of losses and the array of weights ws.
+    """
+    ws = [initial_w]
+    losses = []
+    w = initial_w
+    for n_iter in range(max_iters):
+        grad, err = compute_gradient(y, tx, w)
+        loss = calculate_mse(err)
+        w = w - gamma * grad
+        ws.append(w)
+        losses.append(loss)
+    """        print("Gradient Descent({bi}/{ti}): loss={l}, w0={w0}, w1={w1}".format(
+              bi=n_iter, ti=max_iters - 1, l=loss, w0=w[0], w1=w[1]))"""
+    return losses, ws
+
+
+def least_squares_SGD(y, tx, initial_w, max_iters, gamma):
+    """
+    TODO
+    """
+    return null
+
 #Least square normal equation
-def least squares(y, tx): 
+def least_squares(y, tx): 
     """Least squares regression using normal equations  """
     #w = np.linalg.solve(tx,y)
     w = np.linalg.lstsq(tx, y) #Supposedly working better than solve when the matrix is not invertible
@@ -66,9 +77,23 @@ def least squares(y, tx):
     return loss, w
 
 
+def ridge_regression(y, tx, lambda_):
+    """
+    TODO
+    """
+    return null
 
 
+def logistic_regression(y, tx, initial_w, max_iters, gamma):
+    """
+    TODO
+    """
+    raise NotImplementedError
+    return null
 
-
-
-
+def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
+    """
+    TODO
+    """
+    raise NotImplementedError
+    return null
