@@ -71,8 +71,9 @@ def least_squares_SGD(y, tx, initial_w, max_iters, gamma):
 #Least square normal equation
 def least_squares(y, tx): 
     """Least squares regression using normal equations  """
-    #w = np.linalg.solve(tx,y)
-    w = np.linalg.lstsq(tx, y) #Supposedly working better than solve when the matrix is not invertible
+    a=tx.T.dot(tx)
+    b=tx.T.dot(y)
+    w = np.linalg.solve(a, b) 
     loss=compute_loss(y, tx, w) 
     return loss, w
 
