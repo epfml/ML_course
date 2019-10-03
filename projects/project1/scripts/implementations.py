@@ -1,6 +1,6 @@
 from scripts.costs import *
 from scripts.proj1_helpers import *
-from scirpts.helpers import *
+from scripts.helpers import *
 
 #Least squares gradient descent
 def compute_gradient(y, tx, w):
