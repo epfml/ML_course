@@ -18,7 +18,7 @@ def compute_stoch_gradient(y, tx, w):
     return grad, err
 
 def stochastic_gradient_descent(
-        y, tx, initial_w, batch_size, max_iters, gamma):
+    y, tx, initial_w, batch_size, max_iters, gamma):
     """Stochastic gradient descent."""
     # Define parameters to store w and loss
     ws = [initial_w]
@@ -80,10 +80,14 @@ def least_squares(y, tx):
 
 def ridge_regression(y, tx, lambda_):
     """
-    TODO
+    Ridge regression, almost the same as least square but with a with a regularization term
     """
-    return null
-
+    lambda_prime=2*len(y)*lambda_
+    a=tx.T.dot(tx)+lambda_prime*np.identity(n.shape(tx)[1]) #tx is N*D, we want a DxD identity
+    b=tx.T.dot(y)
+    w = np.linalg.solve(a, b) 
+    loss=compute_loss(y, tx, w) 
+    return loss, w
 
 def logistic_regression(y, tx, initial_w, max_iters, gamma):
     """
