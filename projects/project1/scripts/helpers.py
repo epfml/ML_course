@@ -87,6 +87,3 @@ def compute_stoch_gradient(y, tx, w):
     return grad, err
 
 ##############################################
-
-def remove_outliers(data):
-    raise NotImplementedError
