@@ -72,3 +72,21 @@ def batch_iter(y, tx, batch_size, num_batches=1, shuffle=True):
         end_index = min((batch_num + 1) * batch_size, data_size)
         if start_index != end_index:
             yield shuffled_y[start_index:end_index], shuffled_tx[start_index:end_index]
+
+###############################################
+def compute_gradient(y, tx, w):
+    """Compute the gradient."""
+    e = y - tx.dot(w)
+    grad = -tx.T.dot(e) / len(e)
+    return grad, e
+
+def compute_stoch_gradient(y, tx, w):
+    """Compute a stochastic gradient from just few examples n and their corresponding y_n labels."""
+    err = y - tx.dot(w)
+    grad = -tx.T.dot(err) / len(err)
+    return grad, err
+
+##############################################
+
+def remove_outliers(data):
+    raise NotImplementedError

@@ -108,4 +108,4 @@ ENV/
 *.tex
 
 #Data
-projects/project1/data
+projects/project1/data/
