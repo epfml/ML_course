@@ -19,7 +19,7 @@ def least_squares_GD(y, tx, initial_w, max_iters, gamma):
 def least_squares_SGD(y, tx, initial_w, max_iters, gamma):
     """Stochastic gradient descent."""
     w = initial_w
-    batch_size=1 #Possible to change this value, fixed from project descriptions
+    batch_size=1 #Possible to change this value, fixed from project description
     for n_iter in range(max_iters):
         for y_batch, tx_batch in batch_iter(y, tx, batch_size=batch_size, num_batches=1):
             grad, e = compute_gradient(y_batch, tx_batch, w)
