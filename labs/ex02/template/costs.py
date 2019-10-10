@@ -7,7 +7,11 @@ def compute_loss(y, tx, w):
     You can calculate the loss using mse or mae.
     """
     # ***************************************************
-    # INSERT YOUR CODE HERE
-    # TODO: compute loss by MSE / MAE
+    error = y - np.dot(tx,w)
+    if method == "mae":
+        return np.sum(np.abs(error)) / np.shape(y)[0] / 2
+    elif method == "mse":
+        return np.inner(error,error) / np.shape(y)[0] / 2 #for MSE
+    else:
+        raise Exception("spam")
     # ***************************************************
-    raise NotImplementedError

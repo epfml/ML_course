@@ -4,29 +4,23 @@
 def compute_gradient(y, tx, w):
     """Compute the gradient."""
     # ***************************************************
-    # INSERT YOUR CODE HERE
-    # TODO: compute gradient and loss
-    # ***************************************************
-    raise NotImplementedError
+    n = np.shape(tx)[0]
+    error = y - np.dot(tx,w)
+    return - np.dot(tx.T,error)/n
 
 
 def gradient_descent(y, tx, initial_w, max_iters, gamma):
-    """Gradient descent algorithm."""
+    """Gradient descent algorithm with mse."""
     # Define parameters to store w and loss
     ws = [initial_w]
     losses = []
     w = initial_w
     for n_iter in range(max_iters):
         # ***************************************************
-        # INSERT YOUR CODE HERE
-        # TODO: compute gradient and loss
+        grad = compute_gradient(y, tx, w)
+        loss = compute_loss(y, tx, w, method="mse")
+        w = w - gamma*grad
         # ***************************************************
-        raise NotImplementedError
-        # ***************************************************
-        # INSERT YOUR CODE HERE
-        # TODO: update w by gradient
-        # ***************************************************
-        raise NotImplementedError
         # store w and loss
         ws.append(w)
         losses.append(loss)

@@ -55,3 +55,55 @@ def build_model_data(height, weight):
     num_samples = len(y)
     tx = np.c_[np.ones(num_samples), x]
     return y, tx
+
+def grid_search(y, tx, w0, w1):
+    """Algorithm for grid search."""
+    losses = np.zeros((len(w0), len(w1)))
+    # ***************************************************
+    for i in range(len(w0)):
+        for j in range(len(w1)):
+            wtest = np.array([w0[i],w1[j]])
+            losses[i,j] = compute_loss(y, tx, wtest)
+    # ***************************************************
+    return losses
+   
+def generate_w(num_intervals=300):
+    """Generate a grid of values for w0 and w1."""
+    w0 = np.linspace(-100, 200, num_intervals)
+    w1 = np.linspace(-150, 150, num_intervals)
+    return w0, w1
+
+def compute_loss(y, tx, w):
+    """Calculate the loss."""
+    error = y - np.dot(tx,w)
+    
+    return np.inner(error,error) / np.shape(y)[0] / 2 #for MSE
+
+def get_best_parameters(w0, w1, losses):
+    """Get the best w from the result of grid search."""
+    min_row, min_col = np.unravel_index(np.argmin(losses), losses.shape)
+    return losses[min_row, min_col], w0[min_row], w1[min_col]
+
+def compute_gradient(y, tx, w):
+    """Compute the gradient."""
+    n = np.shape(tx)[0]
+    error = y - np.dot(tx,w)
+    return - np.dot(tx.T,error)/n
+
+def leastsquaresGD(y, tx, initial_w, max_iters, gamma):
+    """Gradient descent algorithm with mse."""
+    # Define parameters to store w and loss
+    loss = 0
+    w = initial_w
+    for n_iter in range(max_iters):
+        # ***************************************************
+        grad = compute_gradient(y, tx, w)
+        loss = compute_loss(y, tx, w)
+        w = w - gamma*grad
+        # ***************************************************
+        if not(n_iter%30):
+            print("Gradient Descent({bi}/{ti}): loss={l}, w0={w0}, w1={w1}".format(
+              bi=n_iter, ti=max_iters - 1, l=loss, w0=w[0], w1=w[1]))
+
+    return loss, w
+
