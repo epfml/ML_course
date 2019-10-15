@@ -23,6 +23,23 @@ def load_csv_data(data_path, sub_sample=False):
 
     return yb, input_data, ids
 
+def load_data_jet_number(data_path,number):
+    y = np.genfromtxt(data_path, delimiter=",", skip_header=1, dtype=str, usecols=1)
+    x = np.genfromtxt(data_path, delimiter=",", skip_header=1)
+    
+    tx_num = x[:,2:]
+    tx_num = tx_num[tx_num[:,22]==number]
+
+    y = y[x[:,24]==number]
+    y_num = np.ones(len(y))
+    y_num[np.where(y=='b')] = -1
+
+    ids = x[x[:,24]==0]
+    ids = ids[:, 0].astype(np.int)
+
+
+    return y_num, tx_num, ids
+
 
 def predict_labels(weights, data):
     """Generates class predictions given weights, and a test data matrix"""
