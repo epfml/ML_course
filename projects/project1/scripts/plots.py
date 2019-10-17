@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def cross_validation_visualization(lambds, mse_tr, mse_te,d):
+def cross_validation_visualization(lambds, mse_tr, mse_te,name_to_add_in_path):
     """visualization the curves of mse_tr and mse_te."""
     plt.semilogx(lambds, mse_tr, marker=".", color='b', label='train error')
     plt.semilogx(lambds, mse_te, marker=".", color='r', label='test error')
@@ -13,7 +13,7 @@ def cross_validation_visualization(lambds, mse_tr, mse_te,d):
     plt.title("cross validation")
     plt.legend(loc=2)
     plt.grid(True)
-    plt.savefig("cross_validation_degree"+str(d))
+    plt.savefig("cross_validation_degree"+d)
     plt.show()
 
 
