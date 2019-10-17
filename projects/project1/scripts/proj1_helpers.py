@@ -29,12 +29,22 @@ def load_data_jet_number(data_path,number):
     
     tx_num = x[:,2:]
     tx_num = tx_num[tx_num[:,22]==number]
-
+    
+    #remove useless variables 
+    if number==0:
+        tx_num=np.delete(tx_num,[4,5,6,12,22,23,24,25,26,27,28],1)
+    elif number==1:
+        tx_num=np.delete(tx_num,[4,5,6,12,22,26,27,28],1)
+    elif number==2:
+        tx_num=np.delete(tx_num,22,1)
+    elif number==3:
+        tx_num=np.delete(tx_num,22,1)
     y = y[x[:,24]==number]
     y_num = np.ones(len(y))
     y_num[np.where(y=='b')] = -1
+    
 
-    ids = x[x[:,24]==0]
+    ids = x[x[:,24]==number]
     ids = ids[:, 0].astype(np.int)
 
 
