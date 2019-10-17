@@ -32,7 +32,7 @@ def load_data_jet_number(data_path,number):
     
     #remove useless variables 
     if number==0:
-        tx_num=np.delete(tx_num,[4,5,6,12,22,23,24,25,26,27,28],1)
+        tx_num=np.delete(tx_num,[4,5,6,12,22,23,24,25,26,27,28,29],1) #Without col 29 loss is slightly better as this col is always 0. 
     elif number==1:
         tx_num=np.delete(tx_num,[4,5,6,12,22,26,27,28],1)
     elif number==2:
