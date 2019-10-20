@@ -9,7 +9,8 @@ def build_poly(x, degree):
     # this function should return the matrix formed
     # by applying the polynomial basis to the input data
     # ***************************************************
-    poly = np.ones(x.shape)
-    for deg in range(1, degree+1):
+    poly = x
+    #poly = np.ones(x.shape)
+    for deg in range(2, degree+1):
         poly = np.c_[poly, np.power(x, deg)]
     return poly
