@@ -2,7 +2,7 @@
 """a function used to compute the loss."""
 
 import numpy as np
-
+from helpers import *
 
 def calculate_mse(e):
     """Calculate the mse for vector e."""
@@ -26,3 +26,9 @@ def compute_loss(y, tx, w, type='mse'):
         return calculate_mse(e)
     else :
         return calculate_mae(e)
+
+def calculate_loss(y, tx, w):
+    """compute the cost by negative log likelihood."""
+    pred = sigmoid(tx.dot(w))
+    loss = y.T.dot(np.log(pred)) + (1 - y).T.dot(np.log(1 - pred))
+    return np.squeeze(- loss)

@@ -49,14 +49,45 @@ def ridge_regression(y, tx, lambda_):
     loss=compute_loss(y, tx, w) 
     return w,loss
 
+def penalized_logistic_regression(y, tx, w, lambda_):
+    """return the loss and gradient."""
+    num_samples = y.shape[0]
+    loss_cal=calculate_loss(y, tx, w)
+    loss = loss_cal + lambda_ * np.squeeze(w.T.dot(w))
+    grad=calculate_gradient(y, tx, w)
+    gradient = grad + 2 * lambda_ * w
+    
+    return loss, gradient
+
+def learning_by_penalized_gradient(y, tx, w, gamma, lambda_):
+    """
+    Do one step of gradient descent, using the penalized logistic regression.
+    Return the loss and updated w.
+    """
+    loss, gradient = penalized_logistic_regression(y, tx, w, lambda_)
+    w -= gamma * gradient
+    return loss, w
+
 def logistic_regression(y, tx, initial_w, max_iters, gamma):
-    """
-    TODO
-    """
-    raise NotImplementedError
+    return reg_logistic_regression(y, tx, 0, initial_w, max_iters, gamma)
 
 def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
-    """
-    TODO
-    """
-    raise NotImplementedError
+    w = initial_w
+    threshold = 1e-5
+    losses = []
+    for iter in range(max_iters):
+        # get loss and update w.
+        loss, w = learning_by_penalized_gradient(y, tx, w, gamma, lambda_)
+        # log info
+        if iter % 100 == 0:
+            print("Current iteration={i}, loss={l}".format(i=iter, l=loss), end="")
+            if iter != 0 : 
+                print("rate = " + str(losses[-2]-losses[-1]))
+            print("")
+        # converge criterion
+        losses.append(loss)
+        if len(losses) > 1 and np.abs(losses[-1] - losses[-2]) < threshold:
+            break
+    print("last loss =" +str(loss) + "after " + str(iter) + "iterations")
+    return w, loss
+    
