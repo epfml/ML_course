@@ -75,8 +75,8 @@ def batch_iter(y, tx, batch_size, num_batches=1, shuffle=True):
             
 def sigmoid(t):
     """apply sigmoid function on t."""
-   # return 1.0 / (1 + np.exp(-t))
-    return .5 * (1+np.tanh(.5 * t))
+    return 1.0 / (1 + np.exp(-t))
+    #return .5 * (1+np.tanh(.5 * t))
 
 ###############################################
 def compute_gradient(y, tx, w):

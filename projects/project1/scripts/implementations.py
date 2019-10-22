@@ -54,7 +54,7 @@ def ridge_regression(y, tx, lambda_):
 
 def calc_loss_log(sig, y):
     variation = 1e-5 #to avoid log(0)
-    return (-y*np.log(sig+variation) - (1-y)*np.log(1-sig+variation)).sum()
+    return ((-y*np.log(sig+variation) - (1-y)*np.log(1-sig+variation)).sum())/len(y)
 
 
 def logistic_regression(y, tx, initial_w, max_iters, gamma):
@@ -66,6 +66,7 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
         sig = sigmoid(np.dot(tx, w))
         gradient = np.dot(tx.T, sig-y)
         w -= gamma*gradient
+        
         loss = calc_loss_log(sig, y)
         
         # log info
@@ -84,23 +85,27 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
 
 def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
     w = initial_w
-    threshold = 1e-5
+    threshold = 1e-7
     losses = []
     
     for n_iter in range(max_iters):    
-        #for y_batch, tx_batch in batch_iter(y, tx, batch_size=1, num_batches=1):
-            #sig = sigmoid(np.dot(tx_batch, w))
-            sig = sigmoid(np.dot(tx, w))
-            #gradient = tx_batch.T.dot(sig-y_batch)+lambda_*w
-            gradient = tx.T.dot(sig-y)+lambda_*w
+        for y_batch, tx_batch in batch_iter(y, tx, batch_size=4, num_batches=4):
+            sig = sigmoid(np.dot(tx_batch, w))
+            #sig = sigmoid(np.dot(tx, w))
+            gradient = tx_batch.T.dot(sig-y_batch)+lambda_*w
+            #gradient = tx.T.dot(sig-y)+lambda_*w
             
+            #w -= gamma*gradient
+            
+            loss = calc_loss_log(sigmoid(np.dot(tx, w)), y) + (0.5*lambda_)*np.dot(w.T, w)
+            sig[np.where(sig <= 0.5)] = -1
+            sig[np.where(sig > 0.5)] = 1
             w -= gamma*gradient
             
-            #loss = calc_loss_log(sigmoid(np.dot(tx, w)), y) + (0.5*lambda_)*np.dot(w.T, w)
-            loss = calc_loss_log(sig, y) + (0.5*lambda_)*np.dot(w.T, w)
+            #loss = calc_loss_log(sig, y) + (0.5*lambda_)*np.dot(w.T, w)
             
             # log info
-            if n_iter % 500 == 0:
+            if n_iter % 2000 == 0:
                 print("Current iteration = {i}, loss = {l} ".format(i=n_iter, l=loss), end="")
                 if n_iter != 0 : 
                     print("rate = " + str(losses[-2]-losses[-1]))
@@ -108,8 +113,8 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
             losses.append(loss)
             if len(losses) > 1 and np.abs(losses[-1] - losses[-2]) < threshold:
                 break
-    print("last loss = " + str(loss) + " after " + str(n_iter) + " iterations ")
-    return w, loss
+    print("Best last loss = " + str(np.min(losses[-1])) + " after " + str(n_iter) + " iterations ")
+    return w, np.min(losses[-1]) #should I return the min or the mean ? 
     
     
     
