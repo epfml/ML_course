@@ -28,7 +28,7 @@ def cross_validation(y, tX, k_indices, k, lambda_, degree):
     tX_te_poly=build_poly(tX_te,degree)
     tX_tr_poly=build_poly(tX_tr,degree)
     
-    [w,loss_tr]=reg_logistic_regression(y_tr, tX_tr_poly, lambda_, np.ones((tX_tr_poly.shape[1], 1))/100, 10000, 1e-6)
+    [w,loss_tr]=reg_logistic_regression(y_tr, tX_tr_poly, lambda_, np.ones((tX_tr_poly.shape[1], 1))/100, 30000, 1e-2)
     loss_te=compute_loss(y_te,tX_te_poly,w)
     
     return loss_tr, loss_te, w
