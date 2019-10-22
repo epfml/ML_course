@@ -18,8 +18,10 @@ def least_squares_GD(y, tx, initial_w, max_iters, gamma):
 
 def least_squares_SGD(y, tx, initial_w, max_iters, gamma):
     """Stochastic gradient descent."""
+    
     w = initial_w
     batch_size=1 #Possible to change this value, fixed from project description
+    
     for n_iter in range(max_iters):
         for y_batch, tx_batch in batch_iter(y, tx, batch_size=batch_size, num_batches=1):
             grad, e = compute_gradient(y_batch, tx_batch, w)
@@ -49,45 +51,68 @@ def ridge_regression(y, tx, lambda_):
     loss=compute_loss(y, tx, w) 
     return w,loss
 
-def penalized_logistic_regression(y, tx, w, lambda_):
-    """return the loss and gradient."""
-    num_samples = y.shape[0]
-    loss_cal=calculate_loss(y, tx, w)
-    loss = loss_cal + lambda_ * np.squeeze(w.T.dot(w))
-    grad=calculate_gradient(y, tx, w)
-    gradient = grad + 2 * lambda_ * w
-    
-    return loss, gradient
 
-def learning_by_penalized_gradient(y, tx, w, gamma, lambda_):
-    """
-    Do one step of gradient descent, using the penalized logistic regression.
-    Return the loss and updated w.
-    """
-    loss, gradient = penalized_logistic_regression(y, tx, w, lambda_)
-    w -= gamma * gradient
-    return loss, w
+def calc_loss_log(sig, y):
+    variation = 1e-5 #to avoid log(0)
+    return (-y*np.log(sig+variation) - (1-y)*np.log(1-sig+variation)).sum()
+
 
 def logistic_regression(y, tx, initial_w, max_iters, gamma):
-    return reg_logistic_regression(y, tx, 0, initial_w, max_iters, gamma)
+    w = initial_w
+    losses=[]
+    threshold = 1e-5
+
+    for i in range(max_iters):
+        sig = sigmoid(np.dot(tx, w))
+        gradient = np.dot(tx.T, sig-y)
+        w -= gamma*gradient
+        loss = calc_loss_log(sig, y)
+        
+        # log info
+        if i % 500 == 0:
+            print("Current iteration = {i}, loss = {l} ".format(i=i, l=loss), end="")
+            if i != 0 : 
+                print("rate = " + str(losses[-2]-losses[-1]))
+        # converge criterion
+        losses.append(loss)
+        if len(losses) > 1 and np.abs(losses[-1] - losses[-2]) < threshold:
+            break
+    print("last loss = " + str(loss) + " after " + str(i) + " iterations ")
+    return w, loss
+
+
 
 def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
     w = initial_w
     threshold = 1e-5
     losses = []
-    for iter in range(max_iters):
-        # get loss and update w.
-        loss, w = learning_by_penalized_gradient(y, tx, w, gamma, lambda_)
-        # log info
-        if iter % 100 == 0:
-            print("Current iteration={i}, loss={l}".format(i=iter, l=loss), end="")
-            if iter != 0 : 
-                print("rate = " + str(losses[-2]-losses[-1]))
-            print("")
-        # converge criterion
-        losses.append(loss)
-        if len(losses) > 1 and np.abs(losses[-1] - losses[-2]) < threshold:
-            break
-    print("last loss =" +str(loss) + "after " + str(iter) + "iterations")
+    
+    for n_iter in range(max_iters):    
+        #for y_batch, tx_batch in batch_iter(y, tx, batch_size=1, num_batches=1):
+            #sig = sigmoid(np.dot(tx_batch, w))
+            sig = sigmoid(np.dot(tx, w))
+            #gradient = tx_batch.T.dot(sig-y_batch)+lambda_*w
+            gradient = tx.T.dot(sig-y)+lambda_*w
+            
+            w -= gamma*gradient
+            
+            #loss = calc_loss_log(sigmoid(np.dot(tx, w)), y) + (0.5*lambda_)*np.dot(w.T, w)
+            loss = calc_loss_log(sig, y) + (0.5*lambda_)*np.dot(w.T, w)
+            
+            # log info
+            if n_iter % 500 == 0:
+                print("Current iteration = {i}, loss = {l} ".format(i=n_iter, l=loss), end="")
+                if n_iter != 0 : 
+                    print("rate = " + str(losses[-2]-losses[-1]))
+            # converge criterion
+            losses.append(loss)
+            if len(losses) > 1 and np.abs(losses[-1] - losses[-2]) < threshold:
+                break
+    print("last loss = " + str(loss) + " after " + str(n_iter) + " iterations ")
     return w, loss
     
+    
+    
+
+
+
