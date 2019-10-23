@@ -35,8 +35,8 @@ def cross_validation(y, tX, k_indices, k, lambda_, degree):
     return loss_tr, loss_te, w
 
 def cross_validation_best_weight(y, tX, k_fold, degree, seed, lower_lambda, upper_lambda, name_to_add_in_path):
-    lambdas = np.logspace(lower_lambda, upper_lambda, 10)
     
+    lambdas = np.logspace(lower_lambda, upper_lambda, 3)
     # split data in k fold
     k_indices = build_k_indices(y, k_fold, seed)
     

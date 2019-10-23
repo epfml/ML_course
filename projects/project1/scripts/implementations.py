@@ -89,7 +89,7 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
     losses = []
     
     for n_iter in range(max_iters):    
-        for y_batch, tx_batch in batch_iter(y, tx, batch_size=4, num_batches=4):
+        for y_batch, tx_batch in batch_iter(y, tx, batch_size=1, num_batches=max_iters):
             sig = sigmoid(np.dot(tx_batch, w))
             #sig = sigmoid(np.dot(tx, w))
             gradient = tx_batch.T.dot(sig-y_batch)+lambda_*w
