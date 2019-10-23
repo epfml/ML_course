@@ -100,6 +100,7 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
             loss = calc_loss_log(sigmoid(np.dot(tx, w)), y) + (0.5*lambda_)*np.dot(w.T, w)
             sig[np.where(sig <= 0.5)] = -1
             sig[np.where(sig > 0.5)] = 1
+            n = np.random.randint(len(y))
             w -= gamma*gradient
             
             #loss = calc_loss_log(sig, y) + (0.5*lambda_)*np.dot(w.T, w)
