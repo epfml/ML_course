@@ -28,15 +28,15 @@ def cross_validation(y, tX, k_indices, k, lambda_, degree):
     tX_te_poly=build_poly(tX_te,degree)
     tX_tr_poly=build_poly(tX_tr,degree)
     
-    [w,loss_tr]=reg_logistic_regression(y_tr, tX_tr_poly, lambda_, np.ones((tX_tr_poly.shape[1], 1))/100, 30000, 1e-2)
-    loss_te=compute_loss(y_te,tX_te_poly,w)
+    [w,loss_tr]=reg_logistic_regression(y_tr, tX_tr_poly, lambda_, np.ones((tX_tr_poly.shape[1], 1))/100, 50000, 0.1)
+    loss_te=calc_loss_log(sigmoid(np.dot(tX_te_poly, w)), y_te) + (0.5*lambda_)*np.dot(w.T, w)
 
     
     return loss_tr, loss_te, w
 
 def cross_validation_best_weight(y, tX, k_fold, degree, seed, lower_lambda, upper_lambda, name_to_add_in_path):
     
-    lambdas = np.logspace(lower_lambda, upper_lambda, 3)
+    lambdas = np.logspace(lower_lambda, upper_lambda, 10)
     # split data in k fold
     k_indices = build_k_indices(y, k_fold, seed)
     

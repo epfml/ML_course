@@ -89,7 +89,7 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
     losses = []
     
     for n_iter in range(max_iters):    
-        for y_batch, tx_batch in batch_iter(y, tx, batch_size=1, num_batches=max_iters):
+        for y_batch, tx_batch in batch_iter(y, tx, batch_size=1, num_batches=1):
             sig = sigmoid(np.dot(tx_batch, w))
             #sig = sigmoid(np.dot(tx, w))
             gradient = tx_batch.T.dot(sig-y_batch)+lambda_*w
@@ -97,25 +97,27 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
             
             #w -= gamma*gradient
             
-            loss = calc_loss_log(sigmoid(np.dot(tx, w)), y) + (0.5*lambda_)*np.dot(w.T, w)
+            
             sig[np.where(sig <= 0.5)] = -1
             sig[np.where(sig > 0.5)] = 1
             n = np.random.randint(len(y))
-            w -= gamma*gradient
+            
+            w -= (gamma/np.sqrt(n_iter+1))*gradient
             
             #loss = calc_loss_log(sig, y) + (0.5*lambda_)*np.dot(w.T, w)
             
             # log info
-            if n_iter % 2000 == 0:
-                print("Current iteration = {i}, loss = {l} ".format(i=n_iter, l=loss), end="")
-                if n_iter != 0 : 
-                    print("rate = " + str(losses[-2]-losses[-1]))
+            if n_iter % 25000 == 0:
+                print("Current iteration = {i} \n".format(i=n_iter))
+                #if n_iter != 0 : 
+                    #print("rate = " + str(losses[-2]-losses[-1]))
             # converge criterion
-            losses.append(loss)
-            if len(losses) > 1 and np.abs(losses[-1] - losses[-2]) < threshold:
-                break
-    print("Best last loss = " + str(np.min(losses[-1])) + " after " + str(n_iter) + " iterations ")
-    return w, np.min(losses[-1]) #should I return the min or the mean ? 
+            #losses.append(loss)
+            #if len(losses) > 1 and np.abs(losses[-1] - losses[-2]) < threshold:
+            #    break
+    loss = calc_loss_log(sigmoid(np.dot(tx, w)), y) + (0.5*lambda_)*np.dot(w.T, w)
+    print("Best last loss = " + str((loss)) + " after " + str(n_iter) + " iterations ")
+    return w, loss #should I return the min or the mean ? 
     
     
     
