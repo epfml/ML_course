@@ -30,7 +30,6 @@ def cross_validation(y, tX, k_indices, k, lambda_, degree):
     
     [w,loss_tr]=reg_logistic_regression(y_tr, tX_tr_poly, lambda_, np.ones((tX_tr_poly.shape[1], 1))/100, 50000, 0.1)
     loss_te=calc_loss_log(sigmoid(np.dot(tX_te_poly, w)), y_te) + (0.5*lambda_)*np.dot(w.T, w)
-
     
     return loss_tr, loss_te, w
 
