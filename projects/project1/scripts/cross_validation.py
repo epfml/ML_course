@@ -70,8 +70,6 @@ def cross_validation_best_weight(y, tX, k_fold, degree, seed, lower_lambda, uppe
             rmse_te_l_for_box_plot.append(rmse_te_k)
             w_l.append(np.mean(w_l,axis=0))
             
-        #plt.boxplot(rmse_te_l_for_box_plot)
-        #plt.figure()
         best_index_l=np.argmin(rmse_te_l)
         cross_validation_visualization(lambdas, rmse_tr_l, rmse_te_l, name_to_add_in_path+str(d))
         rmse_tr.append(rmse_tr_l[best_index_l])
