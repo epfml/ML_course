@@ -3,6 +3,8 @@
 #DEFINITION OF ALL THE FUNCTIONS WE WILL NEED LATER ON
 #
 ##############################################################
+import numpy as np
+from implementations import *
 
 def calculate_mse(e):
     """Calculate the mse for vector e."""

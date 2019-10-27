@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from implementations import *
 from helpers import *
 from defs import *
-
+from proj1_helpers import *
 
 
 
