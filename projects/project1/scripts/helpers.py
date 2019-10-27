@@ -76,24 +76,4 @@ def batch_iter(y, tx, batch_size, num_batches=1, shuffle=True):
 def sigmoid(t):
     """apply sigmoid function on t."""
     return 1.0 / (1 + np.exp(-t))
-    #return .5 * (1+np.tanh(.5 * t))
 
-###############################################
-def compute_gradient(y, tx, w):
-    """Compute the gradient."""
-    e = y - tx.dot(w)
-    grad = -tx.T.dot(e) / len(e)
-    return grad, e
-
-def compute_stoch_gradient(y, tx, w):
-    """Compute a stochastic gradient from just few examples n and their corresponding y_n labels."""
-    err = y - tx.dot(w)
-    grad = -tx.T.dot(err) / len(err)
-    return grad, err
-
-def calculate_gradient(y, tx, w):
-    """compute the gradient of loss."""
-    pred = sigmoid(tx.dot(w))
-    grad = tx.T.dot(pred - y)
-    return grad
-##############################################

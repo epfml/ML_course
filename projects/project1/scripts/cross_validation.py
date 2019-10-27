@@ -45,7 +45,7 @@ def cross_validation_best_weight(y, tX, k_fold, degree, seed, lower_lambda, uppe
     weights=[]
     best_lambdas=[]
     
-    for d in range(1,degree):
+    for d in range(2,degree):
         print("DEGREE = " + str(d))
         rmse_tr_l=[]
         rmse_te_l=[]

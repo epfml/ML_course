@@ -1,24 +1,19 @@
-from costs import *
-from proj1_helpers import *
+from defs import *
 from helpers import *
 import math
 
 def least_squares_GD(y, tx, initial_w, max_iters, gamma):
-    """
-    Linear regression using gradient descent. Returns the last loss and last ws.
-    """
+    """    Linear regression using gradient descent. Returns the last loss and last ws.    """
     w = initial_w
     for num_iter in range(max_iters):
         grad, e = compute_gradient(y, tx, w)
         loss = compute_loss(y, tx, w)
         w = w - gamma * grad
-        print(w, loss)
     return w, loss
 
 
 def least_squares_SGD(y, tx, initial_w, max_iters, gamma):
-    """Stochastic gradient descent."""
-    
+    """Stochastic gradient descent."""    
     w = initial_w
     batch_size=1 #Possible to change this value, fixed from project description
     
@@ -27,7 +22,6 @@ def least_squares_SGD(y, tx, initial_w, max_iters, gamma):
             grad, e = compute_gradient(y_batch, tx_batch, w)
             w = w - gamma * grad
             loss = compute_loss(y, tx, w)
-            #print(w, loss)
     return w, loss
 
 #Least square normal equation
@@ -41,12 +35,10 @@ def least_squares(y, tx):
 
 
 def ridge_regression(y, tx, lambda_):
-    """
-    Ridge regression, almost the same as least square but with a with a regularization term
-    """
+    """    Ridge regression, almost the same as least square but with a with a regularization term    """
     lambda_prime=2*len(y)*lambda_
-    a=tx.T.dot(tx)+lambda_prime*np.identity(np.shape(tx)[1]) #tx is N*D, we want a DxD identity
-    b=tx.T.dot(y)
+    a= tx.T.dot(tx) + lambda_prime*np.identity(np.shape(tx)[1]) #tx is N*D, we want a DxD identity
+    b= tx.T.dot(y)
     w = np.linalg.solve(a, b)
     loss=compute_loss(y, tx, w) 
     return w,loss
@@ -58,62 +50,35 @@ def calc_loss_log(sig, y):
 
 
 def logistic_regression(y, tx, initial_w, max_iters, gamma):
-    w = initial_w
-    losses=[]
-    threshold = 1e-5
-
-    for i in range(max_iters):
-        sig = sigmoid(np.dot(tx, w))
-        gradient = np.dot(tx.T, sig-y)
-        w -= gamma*gradient
-        
-        loss = calc_loss_log(sig, y)
-        
-        # log info
-        if i % 500 == 0:
-            print("Current iteration = {i}, loss = {l} ".format(i=i, l=loss), end="")
-            if i != 0 : 
-                print("rate = " + str(losses[-2]-losses[-1]))
-        # converge criterion
-        losses.append(loss)
-        if len(losses) > 1 and np.abs(losses[-1] - losses[-2]) < threshold:
-            break
-    print("last loss = " + str(loss) + " after " + str(i) + " iterations ")
-    return w, loss
-
+    return reg_logistic_regression(y, tx, 0, initial_w, max_iters, gamma)
 
 
 def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
     w = initial_w
     threshold = 1e-7
     losses = []
-    rate=1 #1 is almost infinity right ? 
+    rate=1 
+
     for n_iter in range(max_iters):    
         for y_batch, tx_batch in batch_iter(y, tx, batch_size=1, num_batches=1):
             sig = sigmoid(np.dot(tx_batch, w))
-            #sig = sigmoid(np.dot(tx, w))
             
-            gradient = tx_batch.T.dot(sig-y_batch)+lambda_*w
-            #gradient = tx.T.dot(sig-y)+lambda_*w
-            
-            #w -= gamma*gradient            
-            w -= (gamma/np.sqrt(n_iter+1))*gradient
-            
-            #loss = calc_loss_log(sig, y) + (0.5*lambda_)*np.dot(w.T, w)
+            gradient = tx_batch.T.dot(sig-y_batch) + lambda_*w         
+            w -= (gamma/np.sqrt(n_iter+1)) * gradient
             
             # log info
             if n_iter % 10000 == 0:
                 loss = calc_loss_log(sig, y) + (0.5*lambda_)*np.dot(w.T, w)
                 losses.append(loss)
-                print("Current iteration = {i} loss = {loss}\n".format(i=n_iter,loss=loss))
+                print("Current iteration = {i} loss = {loss}".format(i=n_iter,loss=loss), end="")
                 if n_iter != 0 : 
                     rate=np.abs(losses[-2]-losses[-1])
-                    print("rate = " + str(rate))
+                    print(" rate = " + str(rate))
         if rate<threshold and rate is not math.isnan(rate) : 
             break;
     loss = calc_loss_log(sigmoid(np.dot(tx, w)), y) + (0.5*lambda_)*np.dot(w.T, w)
     print("Best last loss = " + str((loss)) + " after " + str(n_iter) + " iterations ")
-    return w, loss #should I return the min or the mean ? 
+    return w, loss 
     
     
     
