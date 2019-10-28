@@ -1,1 +1,0 @@
-Here are 4 graph to try data expension of degree 1,2,3 and 4 and performing a ridge regression. We clearly see that as much we increse the degree, the test error increase wherehas the training error stay constant : it's OVERFITTING ! So increasing our feature is not a good idea

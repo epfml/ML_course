@@ -5,7 +5,16 @@ In this repository you'll find a few folders.
 * rapport which will contain the final report PDF that was written in Overleaf
 * scripts which is the main folder that contains all of the code 
 
+In the scripts folder, there are these python files :
+* implementations.py : contains the required implementations by the project of linear/ridge/logistic regression, etc...
+* def.py : external function we coded that would help us throughout the project, either for cross validation or display or anything
+* costs.py : file containing the code for costs computation
+* helpers.py and proj1_helpers.py : two files given at the beginning containing pre-made function useful for importing and displaying infos
+* run.py : actual file that should be run and does the prediction
+
 ## Execution 
+For this project we coded everything by using Python 3.
+
 Get into the scripts/ folder and launch
 ```bash
 python3 run.py
