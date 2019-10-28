@@ -110,3 +110,6 @@ ENV/
 *.fdb_latexmk
 *.synctex.gz
 *.tex
+
+#Data
+projects/project1/data/
