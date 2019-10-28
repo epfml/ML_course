@@ -1,5 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
 
 from implementations import *
 from helpers import *
@@ -9,9 +8,11 @@ from proj1_helpers import *
 
 
 ##############################################################
+print("STARTING")
 '''Data for training shaping'''
 
 DATA_TRAIN_PATH = '../data/train.csv'
+
 
 y0, tX0, id0 = load_data_jet_number(DATA_TRAIN_PATH, 0, sub_sample=False)
 y1, tX1, id1 = load_data_jet_number(DATA_TRAIN_PATH, 1, sub_sample=False)
@@ -34,9 +35,9 @@ tX3_standardized, tX3_mean, tX3_std= standardize(tX3)
 
 k_fold=10
 seed=5
-degree=8 
-lower_lambda=-10
-upper_lambda=0
+degree=12
+lower_lambda=-15
+upper_lambda=-3
 print("FIRST MATRIX")
 weights_0, loss_0, deg0 = cross_validation_best_weight(y0, tX0_standardized, k_fold, degree, seed, lower_lambda, upper_lambda, "jet0")
 print("SECOND MATRIX")
@@ -50,12 +51,11 @@ weights_3, loss_3, deg3 = cross_validation_best_weight(y3, tX3_standardized, k_f
 '''Data for testing shaping'''
 
 DATA_TEST_PATH = '../data/test.csv' 
-_, tX_test, ids_test = load_csv_data(DATA_TEST_PATH)
 
-_, tX0_te, id0_te = load_data_jet_number("DATA_TEST_PATH", 0)
-_, tX1_te, id1_te = load_data_jet_number("DATA_TEST_PATH", 1)
-_, tX2_te, id2_te = load_data_jet_number("DATA_TEST_PATH", 2)
-_, tX3_te, id3_te = load_data_jet_number("DATA_TEST_PATH", 3)
+_, tX0_te, id0_te = load_data_jet_number(DATA_TEST_PATH, 0)
+_, tX1_te, id1_te = load_data_jet_number(DATA_TEST_PATH, 1)
+_, tX2_te, id2_te = load_data_jet_number(DATA_TEST_PATH, 2)
+_, tX3_te, id3_te = load_data_jet_number(DATA_TEST_PATH, 3)
 
 for col in [0,1,2]:
     tX0_te[tX0_te[:,col]==-999,col]=0

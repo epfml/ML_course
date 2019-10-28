@@ -1,6 +1,6 @@
-from defs import *
 from helpers import *
 import math
+from costs import *
 
 def least_squares_GD(y, tx, initial_w, max_iters, gamma):
     """    Linear regression using gradient descent. Returns the last loss and last ws.    """

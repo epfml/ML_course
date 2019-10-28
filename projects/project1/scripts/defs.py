@@ -6,31 +6,6 @@
 import numpy as np
 from implementations import *
 
-def calculate_mse(e):
-    """Calculate the mse for vector e."""
-    return 1/2*np.mean(e**2)
-
-
-def calculate_mae(e):
-    """Calculate the mae for vector e."""
-    return np.mean(np.abs(e))
-
-
-def compute_loss(y, tx, w, type='mse'):
-    """Calculate the loss.
-    You can calculate the loss using mse or mae.
-    By default the loss is mse. Raise exception if type is not mse nor mae
-    """
-    if (type is not 'mae' and type is not 'mse'):
-       raise ValueError("type is not mse nor mae")
-    e = y - tx.dot(w)
-    if type is 'mse':
-        return calculate_mse(e)
-    else :
-        return calculate_mae(e)
-
-
-
 def compute_gradient(y, tx, w):
     """Compute the gradient."""
     e = y - tx.dot(w)
@@ -91,33 +66,35 @@ def build_poly(x, degree):
 
 def build_k_indices(y, k_fold, seed):
     """build k indices for k-fold."""
-    num_row = y.shape[0]
-    interval = int(num_row / k_fold)
+    n_row = y.shape[0]
+    interval = int(n_row / k_fold)
     np.random.seed(seed)
-    indices = np.random.permutation(num_row)
-    k_indices = [indices[k * interval: (k + 1) * interval] for k in range(k_fold)]
+    indices = np.random.permutation(n_row)
+
+    k_indices = [indices[i * interval : (i+1) * interval] for i in range(k_fold)]
     return np.array(k_indices)
 
 def cross_validation(y, tX, k_indices, k, lambda_, degree):
-    tr_indice = k_indices[~(np.arange(k_indices.shape[0]) == k)]
-    tr_indice = tr_indice.reshape(-1)
+    length = k_indices.shape[0]
+    train_indice = k_indices[~(np.arange(length) == k)]
+    train_indice = train_indice.reshape(-1)
     
-    tX_te=tX[k_indices[k]]
-    tX_tr=tX[tr_indice]
+    tX_test=tX[k_indices[k]]
+    tX_train=tX[train_indice]
     
-    y_te=y[k_indices[k]]
-    y_tr=y[tr_indice]
+    y_test=y[k_indices[k]]
+    y_train=y[train_indice]
     
-    tX_te_poly=build_poly(tX_te,degree)
-    tX_tr_poly=build_poly(tX_tr,degree)
+    tX_test_poly=build_poly(tX_test,degree)
+    tX_train_poly=build_poly(tX_train,degree)
     
-    w,loss_tr=ridge_regression(y_tr,tX_tr_poly,lambda_)
-    loss_te=compute_loss(y_te,tX_te_poly,w,type="mae")
+    w,loss_tr=ridge_regression(y_train,tX_train_poly,lambda_)
+    loss_te=compute_loss(y_test,tX_test_poly,w,type="mae")
     
     return loss_tr, loss_te, w
 
 def cross_validation_best_weight(y, tX, k_fold, degree, seed, lower_lambda, upper_lambda, name_to_add_in_path):
-    number_lambdas = 10
+    number_lambdas = 30
     lambdas = np.logspace(lower_lambda, upper_lambda, number_lambdas)
     # split data in k fold
     k_indices = build_k_indices(y, k_fold, seed)
@@ -160,6 +137,6 @@ def cross_validation_best_weight(y, tX, k_fold, degree, seed, lower_lambda, uppe
         best_lambdas.append(lambdas[best_index_l])
         
     best_index_d=np.argmin(mae_te)
-    print("Test best error = "  + str(mae_te[best_index_d]) + "for lambda = " + str(best_lambdas[best_index_d]) + "and degree = "+ str(best_index_d+1))
+    print("Test best error = "  + str(mae_te[best_index_d]) + " for lambda = " + str(best_lambdas[best_index_d]) + " and degree = "+ str(best_index_d+1))
     
     return weights[best_index_d],mae_te[best_index_d], best_index_d+1
