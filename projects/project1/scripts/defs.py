@@ -5,6 +5,7 @@
 ##############################################################
 import numpy as np
 from implementations import *
+from costs import *
 
 def compute_gradient(y, tx, w):
     """Compute the gradient."""

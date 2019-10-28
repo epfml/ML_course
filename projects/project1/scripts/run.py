@@ -35,8 +35,8 @@ tX3_standardized, tX3_mean, tX3_std= standardize(tX3)
 
 k_fold=10
 seed=5
-degree=12
-lower_lambda=-15
+degree=10
+lower_lambda=-12
 upper_lambda=-3
 print("FIRST MATRIX")
 weights_0, loss_0, deg0 = cross_validation_best_weight(y0, tX0_standardized, k_fold, degree, seed, lower_lambda, upper_lambda, "jet0")

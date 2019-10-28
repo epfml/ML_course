@@ -40,7 +40,7 @@ def ridge_regression(y, tx, lambda_):
     a= tx.T.dot(tx) + lambda_prime*np.identity(np.shape(tx)[1]) #tx is N*D, we want a DxD identity
     b= tx.T.dot(y)
     w = np.linalg.solve(a, b)
-    loss=compute_loss(y, tx, w) 
+    loss=compute_loss(y, tx, w, type='mae') 
     return w,loss
 
 

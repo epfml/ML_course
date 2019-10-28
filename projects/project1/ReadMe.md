@@ -22,4 +22,4 @@ The code execute itself. We do a ridge regression on the training dataset, and a
 We have also previously seperated the data to train in 4 mini-sets following a specific variable, better explained in the report.
 
 ## Submission
-The output pred.csv is in the data folder and was submitter on [here](https://www.aicrowd.com/challenges/epfl-machine-learning-higgs-2019) where we fo
+The output pred.csv is in the data folder and was submitter on [here](https://www.aicrowd.com/challenges/epfl-machine-learning-higgs-2019) where we achieved a score of 0.809
