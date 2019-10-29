@@ -33,11 +33,11 @@ tX3_standardized, tX3_mean, tX3_std= standardize(tX3)
 
 '''Data training'''
 
-k_fold=10
+k_fold=4
 seed=5
-degree=10
-lower_lambda=-12
-upper_lambda=-3
+degree=8
+lower_lambda=-10
+upper_lambda=0
 print("FIRST MATRIX")
 weights_0, loss_0, deg0 = cross_validation_best_weight(y0, tX0_standardized, k_fold, degree, seed, lower_lambda, upper_lambda, "jet0")
 print("SECOND MATRIX")
