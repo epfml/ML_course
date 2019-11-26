@@ -1,0 +1,10 @@
+
+n_epochs : [20, 50]lr_all : [0.001, 0.003, 0.005]reg_all : [0.065, 0.07, 0.075]Tenth of data
+n_epochs : [20, 50]lr_all : [0.001, 0.003, 0.005]reg_all : [0.065, 0.07, 0.075]Tenth of dataBest param : {'rmse': {'n_epochs': 20, 'lr_all': 0.003, 'reg_all': 0.07}}Best score : {'rmse': 1.0211386318698716}
+
+n_epochs : [20, 50]
+lr_all : [0.001, 0.003, 0.005, 0.007]
+reg_all : [0.065, 0.007, 0.0075, 0.008]
+Tenth of dataBest param : {'rmse': {'n_epochs': 20, 'lr_all': 0.003, 'reg_all': 0.065}}
+Best score : {'rmse': 1.0208405192583954}
+
