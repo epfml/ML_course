@@ -1,5 +1,5 @@
 # EPFL Machine Learning Course CS-433
-Machine Learning Course, Fall 2019
+Machine Learning Course, Fall 2020
 
 Repository for all lecture notes, labs and projects - resources, code templates and solutions.
 
