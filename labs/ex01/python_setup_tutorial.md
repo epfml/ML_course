@@ -52,7 +52,7 @@ There are a few handy commands that you should start every notebook with
 * Running code
 	* `Enter` enters the edition mode of the currently selected cell.
 	* `Shift-Enter` runs the current cell and goes to the next one.
-	* `Ctrl-Enter` runs the currect cell and leave it selected.
+	* `Ctrl-Enter` runs the current cell and leave it selected.
 * Autocompletion
   * `Tab` pops up the Autocompletion when you are in the middle of writing a function call/class name and shows the arguments of the function being called when used after an opening parenthesis.
   * `Shift-Tab` pops up the help/documentation of the function its used on
@@ -75,7 +75,7 @@ For a nice introduction to Python, you should take a look at [the Python tutoria
 * Section 10 on the standard library and [the standard library index](https://docs.python.org/3/library/index.html) are worth a quick scroll to see what's available.
 * Do not bother with Sections 11-16 for now.
 
-Here are some additionnal resources on Python:
+Here are some additional resources on Python:
 
 * [Python's standard library reference](https://docs.python.org/3/library/index.html)
 * [Debugging and profiling](https://docs.python.org/3/library/debug.html)
