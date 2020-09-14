@@ -4,14 +4,46 @@ In order to implement the algorithms seen in class and work on the projects, we'
 
 ## The environment
 
-### Python distribution: Anaconda
-We will be using the [Anaconda](https://www.anaconda.com/) distribution to run Python 3, as it is easy to install and comes with most packages we will need. To install Anaconda, go to [the download page](https://www.anaconda.com/distribution/) and get the Python installer for your OS - make sure to use the newer version 3.x, not 2.x. Follow the instructions of the installer and you're done.
+We recommend two easy-to-use online environments (EPFL Noto or Google Colab) or a local installation (Anaconda).
+
+### Online: EPFL Noto & Google Colab
+#### EPFL Noto
+Called [Noto](https://www.epfl.ch/education/educational-initiatives/cede/digitaltools/noto/), EPFL’s JupyterLab centralized platform allows teachers and students to use Jupyter (Python) notebooks without having to install anything on their computer: they can easily access, modify and run notebooks online with a simple web browser. EPFL Noto files are automatically saved on your EPFL account and remain available there.
+
+[Click here for an automatic setup for CS-433 on your EPFL Noto and start with the introduction exercise `npprimer.ipynb`.](https://noto.epfl.ch/hub/user-redirect/git-pull?repo=https://github.com/epfml/ML_course&urlpath=lab/tree/ML_course/labs/ex01/npprimer.ipynb)
+
+To get the latest content from CS-433 (when it is updated):
+1. open a terminal window in Noto (via '+' sign)
+2. `cd` to `ML_course`
+3. add and commit any changes you have made locally
+4. execute `git pull`
+
+After opening the terminal (step 1):
+```bash
+cd
+cd ML_course
+git add *
+git commit -m "your custom message about these changes"
+git pull
+```
+
+#### Google Colab
+Google colab provides a similar environment to Noto, with additional access to GPUs (not needed in the first few labs). Note that you need to take care of storing the files permanently yourself (storing on Google Drive, downloading to a local machine, ...).
+
+You can open any exercise by adapting `XY` with the lab number and `PATH_TO_FILE` with the path of the notebook you wish to open:  
+`http://colab.research.google.com/github/epfml/ML_course/blob/master/labs/exXY/PATH_TO_FILE`
+
+E.g. for the numpy introduction `npprimer.ipynb`:  
+[`http://colab.research.google.com/github/epfml/ML_course/blob/master/labs/ex01/npprimer.ipynb`](http://colab.research.google.com/github/epfml/ML_course/blob/master/labs/ex01/npprimer.ipynb)
+
+### Offline: Python distribution Anaconda
+If you prefer to have an environment locally on your computer, you can use the [Anaconda](https://www.anaconda.com/) distribution to run Python 3, as it is easy to install and comes with most packages we will need. To install Anaconda, go to [the download page](https://www.anaconda.com/distribution/) and get the Python installer for your OS - make sure to use the newer version 3.x, not 2.x. Follow the instructions of the installer and you're done.
 > **Warning!** The installer will ask you if you want to add Anaconda to your path. Your default answer should be yes, unless you have specific reasons not to want this.
 
 
 ### Development Environment 
 
-During the course, we will use [**Jupyter Notebooks**](http://jupyter.org/), which is a great tool for exploratory and interactive programming and in particular for data analysis. Notebooks are browser based, and you start it on your localhost by typing `jupyter notebook` in the console. Notebooks are already available by default by Anaconda. The interface is pretty intuitive, but they are a few tweaks and shortcuts that will make your life easier, which we'll detail in the next section. You can of course ask any of the TAs for help on using the Notebooks.
+During the course, we will use [**Jupyter Notebooks**](http://jupyter.org/), which is a great tool for exploratory and interactive programming and in particular for data analysis. Notebooks are browser based, and you start it on your localhost by typing `jupyter notebook` in the console. Notebooks are already available by default by Anaconda. The interface is pretty intuitive, but there are a few tweaks and shortcuts that will make your life easier, which we'll detail in the next section. You can of course ask any of the TAs for help on using the Notebooks.
 
 ### The Notebook System
 
