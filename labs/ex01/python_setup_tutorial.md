@@ -4,14 +4,52 @@ In order to implement the algorithms seen in class and work on the projects, we'
 
 ## The environment
 
-### Python distribution: Anaconda
-We will be using the [Anaconda](https://www.anaconda.com/) distribution to run Python 3, as it is easy to install and comes with most packages we will need. To install Anaconda, go to [the download page](https://www.anaconda.com/distribution/) and get the Python installer for your OS - make sure to use the newer version 3.x, not 2.x. Follow the instructions of the installer and you're done.
+We recommend two easy-to-use online environments (EPFL Noto or Google Colab) or a local installation (Anaconda).
+
+### Online: EPFL Noto & Google Colab
+#### EPFL Noto
+Called [Noto](https://www.epfl.ch/education/educational-initiatives/cede/digitaltools/noto/), EPFL’s JupyterLab centralized platform allows teachers and students to use Jupyter (Python) notebooks without having to install anything on their computer: they can easily access, modify and run notebooks online with a simple web browser. EPFL Noto files are automatically saved on your EPFL account and remain available there.
+
+[Click here for an automatic setup for CS-433 on your EPFL Noto and start with the introduction exercise `npprimer.ipynb`.](https://noto.epfl.ch/hub/user-redirect/git-pull?repo=https://github.com/epfml/ML_course&urlpath=lab/tree/ML_course/labs/ex01/npprimer.ipynb)
+
+To get the latest content from CS-433 (when it is updated):
+1. open a terminal window in Noto (via '+' sign)
+2. `cd` to `ML_course`
+3. add and commit any changes you have made locally
+4. execute `git pull`
+
+After opening the terminal (step 1):
+```bash
+cd
+cd ML_course
+git add *
+git commit -m "your custom message about these changes"
+git pull
+```
+
+#### Google Colab
+
+Google colab provides a similar environment to Noto, with additional access to GPUs (not needed in the first few labs). Note that you need to take care of storing the files permanently yourself (storing on Google Drive, downloading to a local machine, ...).
+
+You can open any exercise by adapting `XY` with the lab number and `PATH_TO_FILE` with the path of the notebook you wish to open:  
+`http://colab.research.google.com/github/epfml/ML_course/blob/master/labs/exXY/PATH_TO_FILE`
+
+E.g. for the numpy introduction `npprimer.ipynb`:  
+[`http://colab.research.google.com/github/epfml/ML_course/blob/master/labs/ex01/npprimer.ipynb`](http://colab.research.google.com/github/epfml/ML_course/blob/master/labs/ex01/npprimer.ipynb)
+
+You can also create an empty notebook by following this [link](https://colab.research.google.com/) and clicking `"NEW NOTEBOOK"`, or you can open a pre-existing notebook (.ipynb extension) by selecting the `Upload` tab.
+
+If for some reason you've opened a python2 notebook, you can switch to python3 by going in `Runtime > Change runtime type`. There you can also add a GPU to your notebook if necessary.
+
+### Offline: Python distribution Anaconda
+
+If you prefer to have an environment locally on your computer, you can use the [Anaconda](https://www.anaconda.com/) distribution to run Python 3, as it is easy to install and comes with most packages we will need. To install Anaconda, go to [the download page](https://www.anaconda.com/distribution/) and get the Python installer for your OS - make sure to use the newer version 3.x, not 2.x. Follow the instructions of the installer and you're done.
 > **Warning!** The installer will ask you if you want to add Anaconda to your path. Your default answer should be yes, unless you have specific reasons not to want this.
 
 
-### Development Environment 
+### Development Environment
 
-During the course, we will use [**Jupyter Notebooks**](http://jupyter.org/), which is a great tool for exploratory and interactive programming and in particular for data analysis. Notebooks are browser based, and you start it on your localhost by typing `jupyter notebook` in the console. Notebooks are already available by default by Anaconda. The interface is pretty intuitive, but they are a few tweaks and shortcuts that will make your life easier, which we'll detail in the next section. You can of course ask any of the TAs for help on using the Notebooks.
+During the course, we will use [**Jupyter Notebooks**](http://jupyter.org/), which is a great tool for exploratory and interactive programming and in particular for data analysis. Notebooks are browser based, and you start it on your localhost by typing `jupyter notebook` in the console. Notebooks are already available by default by Anaconda. The interface is pretty intuitive, but there are a few tweaks and shortcuts that will make your life easier, which we'll detail in the next section. You can of course ask any of the TAs for help on using the Notebooks.
 
 ### The Notebook System
 
@@ -35,17 +73,18 @@ There are a few handy commands that you should start every notebook with
 
 	# Plot figures in the notebook (instead of a new window)
 	%matplotlib notebook
-	
+
 	# Automatically reload modules
 	%load_ext autoreload
 	%autoreload 2
-	
+
 	# The usual imports
 	import matplotlib.pyplot as plt
 	import numpy as np
 	import pandas as pd
 
 #### Keyboard shortcuts
+
 * Adding cells
 	* `a` adds an empty cell above the selected one,
 	* `b` adds it below.
@@ -53,9 +92,12 @@ There are a few handy commands that you should start every notebook with
 	* `Enter` enters the edition mode of the currently selected cell.
 	* `Shift-Enter` runs the current cell and goes to the next one.
 	* `Ctrl-Enter` runs the current cell and leave it selected.
-* Autocompletion
+* Autocompletion (Jupyter notebook)
   * `Tab` pops up the Autocompletion when you are in the middle of writing a function call/class name and shows the arguments of the function being called when used after an opening parenthesis.
   * `Shift-Tab` pops up the help/documentation of the function its used on
+* Autocompletion (Google Colab)
+  * `Ctrl-Space` pops up the Autocompletion when you are in the middle of writing a function call/class name and shows the arguments of the function being called when used after an opening parenthesis.
+  * Clicking on a function name and hovering over it will pop up the help/documentation for that function.
 
 * For a complete list of shortcuts, go to `help > keyboard shortcuts`
 
@@ -101,7 +143,38 @@ A good and probably more complete reference is [this one](http://www.engr.ucsb.e
 
 And of course, as a third alternative, you can always use a [decent text editor](https://www.sublimetext.com/) and run your code from the console or any plugin. Keep in mind that the TAs might not be able to help you with your setup if you go down this path.
 
+## Download the exercises content & basic Git tutorial
+
+### Simplest: no git
+
+You can click on the green `code` button on the main [page](https://github.com/epfml/ML_course) and select `Download ZIP`. We advise against this method as you might have to re-download the repository every time some new content is posted there.
+
+### Still simple: using GitHub Desktop
+
+GitHub Desktop simplifies the interaction with a GitHub repository by providing a simple GUI, check it out [here](https://desktop.github.com/). GitHub Desktop supports most 'real' `git` usecases such as the ones described below.  
+
+### More advanced: Git via command line
+
+`Git` is the most widely used version control system. It's a tool to share and help you collaboratively develop and maintain code. GitHub is a Git repository hosting service, it allows you to create Github repositories you can interact with using `git`.
+
+`Git` is typically used via the terminal. To install Git, follow this [link](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
+
+**Download repository.** Once Git is installed you can pull a github repository using: `git clone <url.git>`, e.g. `git clone https://github.com/epfml/ML_course.git`.
+
+**Collaborative coding.** A standard workflow when working as a group is to implement features through pull-requests (PR):
+* You do not want to break the master branch by mistake, so you start by creating and moving to a new branch: `git checkout -b <name-of-my-new-branch>`
+* Now you're safe on your new branch, the modifications you're making won't affect the master branch. You can modify/create new files as if you were on the master branch e.g.
+
+```bash
+# let's say we modify file.py here
+git status # check the status of the files git is tracking
+git add file.py
+git commit -m "some message clearly explaining the modification"
+```
+* Once you are done doing all the modifications you want you can push to your new branch: `git push origin <name-of-my-new-branch>`.
+* Finally you can open a PR from the GitHub user interface. Typically you would ask your colleagues to review your PR and accept it or ask for modifications.
+* Once your PR is accepted and merged, do not forget to switch back to master: `git checkout master` and pull your approved changes `git pull origin master`.
 
 ## Additional References
 
-[A good Python and NumPy Tutorial from Stanford.](https://github.com/kuleshov/cs228-material/blob/master/tutorials/python/cs228-python-tutorial.ipynb) 
+[A good Python and NumPy Tutorial from Stanford.](https://github.com/kuleshov/cs228-material/blob/master/tutorials/python/cs228-python-tutorial.ipynb)
