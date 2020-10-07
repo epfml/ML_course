@@ -6,6 +6,8 @@ def compute_loss(y, tx, w):
 
     You can calculate the loss using mse or mae.
     """
+    #MSE
     e = y - tx.dot(w)
-    loss = 0.5 * np.mean(e.T.dot(e))
+    N = len(y)
+    loss = (0.5/N) * e.T.dot(e)
     return loss
