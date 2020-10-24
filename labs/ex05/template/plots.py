@@ -12,14 +12,14 @@ def visualization(y, x, mean_x, std_x, w, save_name, is_LR=False):
     # plot raw data
     x = de_standardize(x, mean_x, std_x)
     ax1 = fig.add_subplot(1, 2, 1)
-    males = np.where(y == 1)
-    females = np.where(y == 0)
-    ax1.scatter(
-        x[females, 0], x[females, 1],
-        marker='*', color=[1, 0.06, 0.06], s=20, label="female sample")
+    males = np.where(y == 0)
+    females = np.where(y == 1)
     ax1.scatter(
         x[males, 0], x[males, 1],
-        marker='.', color=[0.06, 0.06, 1], s=20, label="male sample")
+        marker='.', color=[1, 0.06, 0.06], s=20, label="male sample")
+    ax1.scatter(
+        x[females, 0], x[females, 1],
+        marker='*', color=[0.06, 0.06, 1], s=20, label="female sample")
     ax1.set_xlabel("Height")
     ax1.set_ylabel("Weight")
     ax1.legend()
@@ -44,13 +44,14 @@ def visualization(y, x, mean_x, std_x, w, save_name, is_LR=False):
     cs = ax2.contourf(hx, hy, prediction, 1)
     proxy = [plt.Rectangle((0,0),1,1,fc = pc.get_facecolor()[0]) 
     for pc in cs.collections]
-    ax2.legend(proxy, ["prediction female", "prediction male"])
-    ax2.scatter(
-        x[males, 0], x[males, 1],
-        marker='.', color=[0.06, 0.06, 1], s=20)
+    ax2.legend(proxy, ["prediction male", "prediction female"])
+    
     ax2.scatter(
         x[females, 0], x[females, 1],
-        marker='*', color=[1, 0.06, 0.06], s=20)
+        marker='*', color=[0.06, 0.06, 1], s=20)
+    ax2.scatter(
+        x[males, 0], x[males, 1],
+        marker='.', color=[1, 0.06, 0.06], s=20)
     ax2.set_xlabel("Height")
     ax2.set_ylabel("Weight")
     ax2.set_xlim([min(x[:, 0]), max(x[:, 0])])
