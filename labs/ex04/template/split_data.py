@@ -13,7 +13,11 @@ def split_data(x, y, ratio, seed=1):
     # set seed
     np.random.seed(seed)
     # ***************************************************
-    # INSERT YOUR CODE HERE
-    # split the data based on the given ratio: TODO
+    indices = np.random.permutation(len(y))
+    
+    splits = [int(len(y)*ratio)]    #.cum() if severals
+    x_train, x_test = np.split(x[indices], splits)
+    y_train, y_test = np.split(y[indices], splits)
     # ***************************************************
-    raise NotImplementedError
+    
+    return x_train, y_train, x_test, y_test

@@ -10,7 +10,8 @@ import numpy as np
 def ridge_regression(y, tx, lambda_):
     """implement ridge regression."""
     # ***************************************************
-    # INSERT YOUR CODE HERE
-    # ridge regression: TODO
+    lambda_prime = 2*tx.shape[0]*lambda_
+    aI = lambda_prime * np.eye(tx.shape[1])
+    w = np.linalg.solve(tx.T.dot(tx) + aI, tx.T.dot(y))
     # ***************************************************
-    raise NotImplementedError
+    return w
