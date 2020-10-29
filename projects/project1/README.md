@@ -27,6 +27,4 @@ Feature_engineering.py: contains the various methods we use to tranform our feat
 
 project1.ipynb : jupyter notebook that helps to visualize the data explain our methodology.
 
-plots.py : The different functions we used to plot The data.
-
 run.py : script that produces a .csv file for our predicitions.
