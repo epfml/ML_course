@@ -1,32 +1,9 @@
-# project1
--------
-Team Members
----
-Ahmed Ben Haj Yahia,
+# EPFL Machine Learning Course CS-433
 
-Nour Ghribi,
+Machine Learning Course, Fall 2020
 
-Kushagra Shah
+Repository for all lecture notes, labs and projects - resources, code templates and solutions.
 
----
-**Goal:**
+The course website and syllabus is available here: https://www.epfl.ch/labs/mlo/machine-learning-cs-433/
 
-The Higgs boson is an elementary particle in the Standard Model of physics which explains why other particles have mass. We are given a vector of features representing the decay signature of a collision event, and we want to predict whether this event was signal (a Higgs boson) or background (something else). To do this, we use different binary classification techniques and compare the results.
-
-**Result:**
-
-We got a score of 83% in crowdAI.
-
-**Files:**
-
-implementations.py : contains the implementation of all the machine-learning methods seen in class.
-
-proj1_helpers.py : contains functions to load the dataset and create the csv file of our final predicitons in addition to various helpers for the implementations.
-
-Feature_engineering.py: contains the various methods we use to tranform our features.
-
-project1.ipynb : jupyter notebook that helps to visualize the data explain our methodology.
-
-plots.py : The different functions we used to plot The data.
-
-run.py : script that produces a .csv file for our predicitions.
+Contact us if you have any questions, via the moodle discussion forum, or email to the assistants or teachers, or feel free to create issues and pull requests here using the menu above.
