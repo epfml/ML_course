@@ -8,14 +8,14 @@ We recommend two easy-to-use online environments (EPFL Noto or Google Colab) or 
 
 ### Online: EPFL Noto & Google Colab
 #### EPFL Noto
-Called [Noto](https://www.epfl.ch/education/educational-initiatives/cede/digitaltools/noto/), EPFL’s JupyterLab centralized platform allows teachers and students to use Jupyter (Python) notebooks without having to install anything on their computer: they can easily access, modify and run notebooks online with a simple web browser. EPFL Noto files are automatically saved on your EPFL account and remain available there.
+Called [Noto](https://www.epfl.ch/education/educational-initiatives/cede/digitaltools/jupyter-notebooks-for-education/), EPFL’s JupyterLab centralized platform allows teachers and students to use Jupyter (Python) notebooks without having to install anything on their computer: they can easily access, modify and run notebooks online with a simple web browser. EPFL Noto files are automatically saved on your EPFL account and remain available there.
 
 [Click here for an automatic setup for CS-433 on your EPFL Noto and start with the introduction exercise `npprimer.ipynb`.](https://noto.epfl.ch/hub/user-redirect/git-pull?repo=https://github.com/epfml/ML_course&urlpath=lab/tree/ML_course/labs/ex01/npprimer.ipynb)
 
 To get the latest content from CS-433 (when it is updated):
 1. open a terminal window in Noto (via '+' sign)
 2. `cd` to `ML_course`
-3. add and commit any changes you have made locally
+3. add and commit any changes you have made locally (an alternative is to stash your changes using 'git stash' if you don't want to keep the changes you've made)
 4. execute `git pull`
 
 After opening the terminal (step 1):
@@ -49,7 +49,7 @@ If you prefer to have an environment locally on your computer, you can use the [
 
 ### Development Environment
 
-During the course, we will use [**Jupyter Notebooks**](http://jupyter.org/), which is a great tool for exploratory and interactive programming and in particular for data analysis. Notebooks are browser based, and you start it on your localhost by typing `jupyter notebook` in the console. Notebooks are already available by default by Anaconda. The interface is pretty intuitive, but there are a few tweaks and shortcuts that will make your life easier, which we'll detail in the next section. You can of course ask any of the TAs for help on using the Notebooks.
+During the course, we will use [**Jupyter Notebooks**](http://jupyter.org/), which is a great tool for exploratory and interactive programming and in particular for data analysis. Notebooks are browser-based, and you start a notebook on your localhost by typing `jupyter notebook` in the console. Notebooks are already available by default by Anaconda. The interface is pretty intuitive, but there are a few tweaks and shortcuts that will make your life easier, which we'll detail in the next section. You can of course ask any of the TAs for help on using the Notebooks.
 
 ### The Notebook System
 
@@ -103,7 +103,7 @@ There are a few handy commands that you should start every notebook with
 
 ## Python
 
-We will be working in Python. If you already have been introduced to Python, feel free to skip this section. If you come from another background, you might want to take some tutorials in addition to this lab in the next week to feel comfortable with it. You do not need to become an expert in Python, but you should be confortable with the general syntax, some of the idiosyncrasies of Python and know how to do basic vector and matrix algebra. For the last part, we will be using NumPy, a library we will introduce later.
+We will be working in Python. If you already have been introduced to Python, feel free to skip this section. If you come from another background, you might want to take some tutorials in addition to this lab in the next week to feel comfortable with it. You do not need to become an expert in Python, but you should be comfortable with the general syntax, some of the idiosyncrasies of Python and know how to do basic vector and matrix algebra. For the last part, we will be using NumPy, a library we will introduce later.
 
 For a nice introduction to Python, you should take a look at [the Python tutorial](https://docs.python.org/3/tutorial/index.html). Here are some reading recommendations:
 
@@ -130,9 +130,9 @@ Our `npprimer.ipynb` notebook as part of the first lab has some useful commands 
 
 We recommend [this list of small exercises](https://www.machinelearningplus.com/101-numpy-exercises-python/) to get started with NumPy arrays etc.
 
-If you are familiar with Matlab, a good starting point is [this guide](https://docs.scipy.org/doc/numpy/user/numpy-for-matlab-users.html). Be careful that we will use way more the `array` structure compared to the `matrix` structure.
+If you are familiar with Matlab, a good starting point is [this guide](https://docs.scipy.org/doc/numpy/user/numpy-for-matlab-users.html). Be careful that we will use way more the `array` data structure compared to the `matrix` data structure.
 
-A good and probably more complete reference is [this one](http://www.engr.ucsb.edu/~shell/che210d/numpy.pdf).
+A good and probably more complete reference is [this one](https://sites.engineering.ucsb.edu/~shell/che210d/numpy.pdf).
 
 
 ### Installation FAQ
