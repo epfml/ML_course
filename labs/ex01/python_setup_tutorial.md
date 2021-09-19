@@ -8,7 +8,7 @@ We recommend two easy-to-use online environments (EPFL Noto or Google Colab) or 
 
 ### Online: EPFL Noto & Google Colab
 #### EPFL Noto
-Called [Noto](https://www.epfl.ch/education/educational-initiatives/cede/digitaltools/noto/), EPFL’s JupyterLab centralized platform allows teachers and students to use Jupyter (Python) notebooks without having to install anything on their computer: they can easily access, modify and run notebooks online with a simple web browser. EPFL Noto files are automatically saved on your EPFL account and remain available there.
+Called [Noto](https://www.epfl.ch/education/educational-initiatives/cede/digitaltools/jupyter-notebooks-for-education/), EPFL’s JupyterLab centralized platform allows teachers and students to use Jupyter (Python) notebooks without having to install anything on their computer: they can easily access, modify and run notebooks online with a simple web browser. EPFL Noto files are automatically saved on your EPFL account and remain available there.
 
 [Click here for an automatic setup for CS-433 on your EPFL Noto and start with the introduction exercise `npprimer.ipynb`.](https://noto.epfl.ch/hub/user-redirect/git-pull?repo=https://github.com/epfml/ML_course&urlpath=lab/tree/ML_course/labs/ex01/npprimer.ipynb)
 
@@ -132,7 +132,7 @@ We recommend [this list of small exercises](https://www.machinelearningplus.com/
 
 If you are familiar with Matlab, a good starting point is [this guide](https://docs.scipy.org/doc/numpy/user/numpy-for-matlab-users.html). Be careful that we will use way more the `array` structure compared to the `matrix` structure.
 
-A good and probably more complete reference is [this one](http://www.engr.ucsb.edu/~shell/che210d/numpy.pdf).
+A good and probably more complete reference is [this one](https://sites.engineering.ucsb.edu/~shell/che210d/numpy.pdf).
 
 
 ### Installation FAQ
