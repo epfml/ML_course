@@ -67,8 +67,8 @@ def plot_image_compression(original_image, image, assignments, mu, k):
     ax1.imshow(original_image, cmap='Greys_r')
     ax2 = fig.add_subplot(1, 2, 2)
     ax2.imshow(image_reconstruct, cmap='Greys_r')
-    plt.draw()
-    plt.pause(0.1)
+#     plt.draw()
+#     plt.pause(0.1)
 
     # ax3 = fig.add_subplot(2, 1, 2)
 
@@ -97,5 +97,5 @@ def plot_image_compression(original_image, image, assignments, mu, k):
     # ax3.set_ylabel("y")
     # ax3.set_title("Histogram of clustered pixels.")
     plt.tight_layout()
-    plt.savefig("image_compression")
+    plt.savefig("image_compression.png")
     plt.show()
