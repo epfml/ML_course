@@ -1,0 +1,46 @@
+\documentclass{../tex_import/ETHuebung_english}
+
+\usepackage{../tex_import/exercise_ml}
+
+\input{../tex_import/definitions} %our customized .tex macros
+
+\begin{document}
+
+
+\makeheader{12, Dec 7, 2021}{Theory Questions SVD}
+
+
+\paragraph{Goals.}
+The goal of this exercise is to
+
+\begin{itemize}
+	\item familiarize yourself with the theory related to SVD.
+	\item have time to discuss Project 2 with the assistants and teammates.
+\end{itemize}
+
+
+\section{Theory Questions}
+\ProblemV{1}{How to compute $\vU$ and $\vS$ efficiently}{ In class,
+we saw that solving the eigenvector/value problem for the matrix $\vX
+\vX^\top$ gives us a way to compute $\vU$ and $\vS$.  But in some
+instances $D \gg N$.  In those cases, is there a way to accomplish
+this computation more efficiently?  }
+
+\ProblemV{2}{Positive semi-definite}{ Show that if $\vX$ is a $N
+\times N$ symmetric matrix then the SVD has the form $\vU \vS
+\vU^\top$, where $\vU$ is a $N \times N$ unitary matrix and $\vS$
+is a $N \times N$ diagonal matrix with non-necessarily positive
+entries. Show that if $\vX$ is positive semi-definite, then all
+entries of $\vS$ are non-negative.  }
+
+
+\section{Generative Adversarial Networks}
+Recommended reading: explore how to implement a simple GAN in PyTorch using the Jupyter notebook \href{https://github.com/epfml/ML_course/tree/master/labs/ex12/gans.ipynb}{gans.ipynb}:
+
+\begin{itemize}
+	\item Open in Google Colab: \href{https://colab.research.google.com/github/epfml/ML_course/blob/master/labs/ex12/gans.ipynb}{colab.research.google.com/github/epfml/ML\_course/blob/master/labs/ex12/gans.ipynb}. This gives you access to a free GPU.
+	\item Change the `runtime type' to GPU under `Runtime $\to$ Change runtime type'.
+\end{itemize}
+
+
+\end{document}
