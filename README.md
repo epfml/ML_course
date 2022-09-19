@@ -1,5 +1,5 @@
 # EPFL Machine Learning Course CS-433
-Machine Learning Course, Fall 2021
+Machine Learning Course, Fall 2022
 
 Repository for all lecture notes, labs and projects - resources, code templates and solutions. Videos available [here on youtube for 2022](https://www.youtube.com/playlist?list=PL4O4bXkI-fAd4nB7YYR5F8WitmPxjPeAa), and [here for 2021](https://www.youtube.com/playlist?list=PL4O4bXkI-fAcBxnceaGFoVutetFyhSx6r).
 
