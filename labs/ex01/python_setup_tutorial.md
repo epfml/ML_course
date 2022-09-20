@@ -162,7 +162,7 @@ GitHub Desktop simplifies the interaction with a GitHub repository by providing 
 **Download repository.** Once Git is installed you can pull a github repository using: `git clone <url.git>`, e.g. `git clone https://github.com/epfml/ML_course.git`.
 
 **Collaborative coding.** A standard workflow when working as a group is to implement features through pull-requests (PR):
-* You do not want to break the master branch by mistake, so you start by creating and moving to a new branch: `git checkout -b <name-of-my-new-branch>`
+* You do not want to break the master/main branch by mistake, so you start by creating and moving to a new branch: `git checkout -b <name-of-my-new-branch>`
 * Now you're safe on your new branch, the modifications you're making won't affect the master branch. You can modify/create new files as if you were on the master branch e.g.
 
 ```bash
@@ -171,7 +171,7 @@ git status # check the status of the files git is tracking
 git add file.py
 git commit -m "some message clearly explaining the modification"
 ```
-* Once you are done doing all the modifications you want you can push to your new branch: `git push origin <name-of-my-new-branch>`.
+* Once you are done doing all the modifications you want you can push to your new branch: `git push origin <name-of-my-new-branch>`. If you prefer a GUI instead of the command line, all above steps can also be performed in [github desktop](https://desktop.github.com/), or your IDE of choice.
 * Finally you can open a PR from the GitHub user interface. Typically you would ask your colleagues to review your PR and accept it or ask for modifications.
 * Once your PR is accepted and merged, do not forget to switch back to master: `git checkout master` and pull your approved changes `git pull origin master`.
 
