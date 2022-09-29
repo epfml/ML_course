@@ -21,8 +21,21 @@ def get_best_parameters(w0, w1, losses):
     return losses[min_row, min_col], w0[min_row], w1[min_col]
 
 
-## ***************************************************
-## INSERT YOUR CODE HERE
-## TODO: Paste your implementation of grid_search
-##       here when it is done.
-## ***************************************************
+def grid_search(y, tx, grid_w0, grid_w1):
+    """Algorithm for grid search.
+        
+    Args:
+        y: numpy array of shape=(N, )
+        tx: numpy array of shape=(N,2)
+        grid_w0: numpy array of shape=(num_grid_pts_w0, ). A 1D array containing num_grid_pts_w0 values of parameter w0 to be tested in the grid search.
+        grid_w1: numpy array of shape=(num_grid_pts_w1, ). A 1D array containing num_grid_pts_w1 values of parameter w1 to be tested in the grid search.
+        
+    Returns:
+        losses: numpy array of shape=(num_grid_pts_w0, num_grid_pts_w1). A 2D array containing the loss value for each combination of w0 and w1
+    """
+
+    losses = np.zeros((len(grid_w0), len(grid_w1)))
+    for i in range(losses.shape[0]):
+        for j in range(losses.shape[1]):
+            losses[i,j] = compute_loss(y, tx, np.array([grid_w0[i], grid_w1[j]]))
+    return losses
