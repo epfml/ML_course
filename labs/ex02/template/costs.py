@@ -20,5 +20,6 @@ def compute_loss(y, tx, w):
     # ***************************************************
     # INSERT YOUR CODE HERE
     # TODO: compute loss by MSE
+    return 1/(2*len(y))*np.linalg.norm(y-tx@w)**2
     # ***************************************************
     raise NotImplementedError
