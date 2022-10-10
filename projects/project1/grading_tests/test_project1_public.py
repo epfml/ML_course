@@ -15,11 +15,20 @@ FUNCTIONS = [
 ]
 
 
-Y = np.array([[0.1], [0.3], [0.5]])
-TX = np.array([[2.3, 3.2], [1.0, 0.1], [1.4, 2.3]])
 MAX_ITERS = 2
 GAMMA = 0.1
-INITIAL_W = np.array([[0.5], [1.0]])
+
+@pytest.fixture()
+def initial_w():
+    return np.array([[0.5], [1.0]])
+
+@pytest.fixture()
+def y():
+    return np.array([[0.1], [0.3], [0.5]])
+
+@pytest.fixture()
+def tx():
+    return np.array([[2.3, 3.2], [1.0, 0.1], [1.4, 2.3]])
 
 
 def test_github_link_format():
@@ -84,9 +93,9 @@ def test_no_todo_left(github_repo_path: pathlib.Path):
         assert "todo" not in content.lower(), f"Solve remaining TODOs in {python_file}."
 
 
-def test_mean_squared_error_gd_0_step(student_implementations):
+def test_mean_squared_error_gd_0_step(student_implementations, y, tx):
     expected_w = np.array([[0.413044], [0.875757]])
-    w, loss = student_implementations.mean_squared_error_gd(Y, TX, expected_w, 0, GAMMA)
+    w, loss = student_implementations.mean_squared_error_gd(y, tx, expected_w, 0, GAMMA)
 
     expected_w = np.array([[0.413044], [0.875757]])
     expected_loss = 2.959836
@@ -97,9 +106,9 @@ def test_mean_squared_error_gd_0_step(student_implementations):
     assert w.shape == expected_w.shape
 
 
-def test_mean_squared_error_gd(student_implementations):
+def test_mean_squared_error_gd(student_implementations, y, tx, initial_w):
     w, loss = student_implementations.mean_squared_error_gd(
-        Y, TX, INITIAL_W, MAX_ITERS, GAMMA
+        y, tx, initial_w, MAX_ITERS, GAMMA
     )
 
     expected_w = np.array([[-0.050586], [0.203718]])
@@ -111,10 +120,10 @@ def test_mean_squared_error_gd(student_implementations):
     assert w.shape == expected_w.shape
 
 
-def test_mean_squared_error_sgd(student_implementations):
+def test_mean_squared_error_sgd(student_implementations, y, tx, initial_w):
     # n=1 to avoid stochasticity
     w, loss = student_implementations.mean_squared_error_sgd(
-        Y[:1], TX[:1], INITIAL_W, MAX_ITERS, GAMMA
+        y[:1], tx[:1], initial_w, MAX_ITERS, GAMMA
     )
 
     expected_loss = 0.844595
@@ -126,8 +135,8 @@ def test_mean_squared_error_sgd(student_implementations):
     assert w.shape == expected_w.shape
 
 
-def test_least_squares(student_implementations):
-    w, loss = student_implementations.least_squares(Y, TX)
+def test_least_squares(student_implementations, y, tx):
+    w, loss = student_implementations.least_squares(y, tx)
 
     expected_w = np.array([[0.218786], [-0.053837]])
     expected_loss = 0.026942
@@ -138,9 +147,9 @@ def test_least_squares(student_implementations):
     assert w.shape == expected_w.shape
 
 
-def test_ridge_regression_lambda0(student_implementations):
+def test_ridge_regression_lambda0(student_implementations, y, tx):
     lambda_ = 0.0
-    w, loss = student_implementations.ridge_regression(Y, TX, lambda_)
+    w, loss = student_implementations.ridge_regression(y, tx, lambda_)
 
     expected_loss = 0.026942
     expected_w = np.array([[0.218786], [-0.053837]])
@@ -151,9 +160,9 @@ def test_ridge_regression_lambda0(student_implementations):
     assert w.shape == expected_w.shape
 
 
-def test_ridge_regression_lambda1(student_implementations):
+def test_ridge_regression_lambda1(student_implementations, y, tx):
     lambda_ = 1.0
-    w, loss = student_implementations.ridge_regression(Y, TX, lambda_)
+    w, loss = student_implementations.ridge_regression(y, tx, lambda_)
 
     expected_loss = 0.03175
     expected_w = np.array([[0.054303], [0.042713]])
@@ -164,10 +173,10 @@ def test_ridge_regression_lambda1(student_implementations):
     assert w.shape == expected_w.shape
 
 
-def test_logistic_regression_0_step(student_implementations):
+def test_logistic_regression_0_step(student_implementations, y, tx):
     expected_w = np.array([[0.463156], [0.939874]])
-    y = (Y > 0.2) * 1.0
-    w, loss = student_implementations.logistic_regression(y, TX, expected_w, 0, GAMMA)
+    y = (y > 0.2) * 1.0
+    w, loss = student_implementations.logistic_regression(y, tx, expected_w, 0, GAMMA)
 
     expected_loss = 1.533694
 
@@ -177,10 +186,10 @@ def test_logistic_regression_0_step(student_implementations):
     assert w.shape == expected_w.shape
 
 
-def test_logistic_regression(student_implementations):
-    y = (Y > 0.2) * 1.0
+def test_logistic_regression(student_implementations, y, tx, initial_w):
+    y = (y > 0.2) * 1.0
     w, loss = student_implementations.logistic_regression(
-        y, TX, INITIAL_W, MAX_ITERS, GAMMA
+        y, tx, initial_w, MAX_ITERS, GAMMA
     )
 
     expected_loss = 1.348358
@@ -192,11 +201,11 @@ def test_logistic_regression(student_implementations):
     assert w.shape == expected_w.shape
 
 
-def test_reg_logistic_regression(student_implementations):
+def test_reg_logistic_regression(student_implementations, y, tx, initial_w):
     lambda_ = 1.0
-    y = (Y > 0.2) * 1.0
+    y = (y > 0.2) * 1.0
     w, loss = student_implementations.reg_logistic_regression(
-        y, TX, lambda_, INITIAL_W, MAX_ITERS, GAMMA
+        y, tx, lambda_, initial_w, MAX_ITERS, GAMMA
     )
 
     expected_loss = 1.237635
@@ -208,12 +217,12 @@ def test_reg_logistic_regression(student_implementations):
     assert w.shape == expected_w.shape
 
 
-def test_reg_logistic_regression_0_step(student_implementations):
+def test_reg_logistic_regression_0_step(student_implementations, y, tx):
     lambda_ = 1.0
     expected_w = np.array([[0.409111], [0.843996]])
-    y = (Y > 0.2) * 1.0
+    y = (y > 0.2) * 1.0
     w, loss = student_implementations.reg_logistic_regression(
-        y, TX, lambda_, expected_w, 0, GAMMA
+        y, tx, lambda_, expected_w, 0, GAMMA
     )
 
     expected_loss = 2.287028
