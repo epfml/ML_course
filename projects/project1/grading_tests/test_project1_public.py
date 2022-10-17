@@ -18,13 +18,16 @@ FUNCTIONS = [
 MAX_ITERS = 2
 GAMMA = 0.1
 
+
 @pytest.fixture()
 def initial_w():
     return np.array([[0.5], [1.0]])
 
+
 @pytest.fixture()
 def y():
     return np.array([[0.1], [0.3], [0.5]])
+
 
 @pytest.fixture()
 def tx():
@@ -208,7 +211,7 @@ def test_reg_logistic_regression(student_implementations, y, tx, initial_w):
         y, tx, lambda_, initial_w, MAX_ITERS, GAMMA
     )
 
-    expected_loss = 1.237635
+    expected_loss = 0.972165
     expected_w = np.array([[0.216062], [0.467747]])
 
     np.testing.assert_allclose(loss, expected_loss, rtol=RTOL, atol=ATOL)
@@ -225,7 +228,7 @@ def test_reg_logistic_regression_0_step(student_implementations, y, tx):
         y, tx, lambda_, expected_w, 0, GAMMA
     )
 
-    expected_loss = 2.287028
+    expected_loss = 1.407327
 
     np.testing.assert_allclose(loss, expected_loss, rtol=RTOL, atol=ATOL)
     np.testing.assert_allclose(w, expected_w, rtol=RTOL, atol=ATOL)
