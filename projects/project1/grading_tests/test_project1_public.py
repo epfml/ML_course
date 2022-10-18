@@ -92,6 +92,8 @@ def test_black_format(github_repo_path: pathlib.Path):
 def test_no_todo_left(github_repo_path: pathlib.Path):
     python_files = list(github_repo_path.glob("**/*.py"))
     for python_file in python_files:
+        if python_file.name == pathlib.Path(__file__).name:
+            continue  # ignore this file for TODO checks
         content = python_file.read_text()
         assert "todo" not in content.lower(), f"Solve remaining TODOs in {python_file}."
 
