@@ -9,7 +9,7 @@ pytest --github_link <GITHUB-REPO-URL> .
 
 We assume that the root of your repository contains a `README.md` file, a script `run.py` (or `run.ipynb`) and a file `implementations.py`  containing the functions with the requested signatures.
 This command should be run from a computer that has the access right to clone your repository.
-You might need to set up SSH Keys for git by following these [instructions](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key)](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key).
+You might need to set up SSH Keys for git by following these [instructions](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key).
 To iterate faster on the tests, you can give a local directory instead of your `<GITHUB-REPO-URL>` (ignore the Github URL failing tests).
 
 We advise you not to copy these test files inside your project repository but rather use them from the course repository.
