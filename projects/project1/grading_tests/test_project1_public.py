@@ -18,13 +18,16 @@ FUNCTIONS = [
 MAX_ITERS = 2
 GAMMA = 0.1
 
+
 @pytest.fixture()
 def initial_w():
     return np.array([[0.5], [1.0]])
 
+
 @pytest.fixture()
 def y():
     return np.array([[0.1], [0.3], [0.5]])
+
 
 @pytest.fixture()
 def tx():
@@ -89,6 +92,8 @@ def test_black_format(github_repo_path: pathlib.Path):
 def test_no_todo_left(github_repo_path: pathlib.Path):
     python_files = list(github_repo_path.glob("**/*.py"))
     for python_file in python_files:
+        if python_file.name == pathlib.Path(__file__).name:
+            continue  # ignore this file for TODO checks
         content = python_file.read_text()
         assert "todo" not in content.lower(), f"Solve remaining TODOs in {python_file}."
 
@@ -208,7 +213,7 @@ def test_reg_logistic_regression(student_implementations, y, tx, initial_w):
         y, tx, lambda_, initial_w, MAX_ITERS, GAMMA
     )
 
-    expected_loss = 1.237635
+    expected_loss = 0.972165
     expected_w = np.array([[0.216062], [0.467747]])
 
     np.testing.assert_allclose(loss, expected_loss, rtol=RTOL, atol=ATOL)
@@ -225,7 +230,7 @@ def test_reg_logistic_regression_0_step(student_implementations, y, tx):
         y, tx, lambda_, expected_w, 0, GAMMA
     )
 
-    expected_loss = 2.287028
+    expected_loss = 1.407327
 
     np.testing.assert_allclose(loss, expected_loss, rtol=RTOL, atol=ATOL)
     np.testing.assert_allclose(w, expected_w, rtol=RTOL, atol=ATOL)
