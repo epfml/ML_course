@@ -35,12 +35,18 @@ def tx():
 
 
 def test_github_link_format():
-    assert GITHUB_LINK.startswith(
-        "https://github.com/"
-    ), "Please provide a Github link."
-    assert (
-        "tree" in GITHUB_LINK
-    ), "Please provide a Github link ending with .../tree/... for the submission."
+    assert GITHUB_LINK.startswith("https://github.com/"), (
+        "Please provide a Github link. "
+        "Note that you can ignore this failing test while developing your project but you should pass "
+        "this test with the URL you submit for grading."
+    )
+    assert "tree" in GITHUB_LINK, (
+        "Please provide a Github link to a precise commit and not to a repository (URL ending with .../tree/...). "
+        "Note that you can ignore this failing test while developing your project but you should pass "
+        "this test with the URL you submit for grading. "
+        "To obtain the URL with the right format, press the `y` key in your browser on the Github page of your "
+        "repo and copy the new URL in the browser bar."
+    )
 
 
 @pytest.mark.parametrize("filename", ("README.md", "implementations.py"))
