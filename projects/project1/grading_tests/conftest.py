@@ -24,13 +24,13 @@ def pytest_configure(config):
 
 @pytest.fixture(scope="session")
 def github_repo_path() -> pathlib.Path:
-    workdir = pathlib.Path("github_workdir")
+    workdir = pathlib.Path("github_workdir").resolve()
 
     # Support giving a directory path instead of github link
     if not GITHUB_LINK.startswith("https://"):
         yield pathlib.Path(GITHUB_LINK)
     else:
-        if "tree" in GITHUB_LINK:
+        if GITHUB_LINK.split("/")[-2] == "tree":
             parts = GITHUB_LINK.split("/")
             commit = parts[-1]
             url = "/".join(parts[:-2]) + ".git"
