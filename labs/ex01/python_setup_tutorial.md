@@ -8,7 +8,7 @@ We recommend two easy-to-use online environments (EPFL Noto or Google Colab) or 
 
 ### Online: EPFL Noto & Google Colab
 #### EPFL Noto
-Called [Noto](https://www.epfl.ch/education/educational-initiatives/cede/digitaltools/jupyter-notebooks-for-education/), EPFL’s JupyterLab centralized platform allows teachers and students to use Jupyter (Python) notebooks without having to install anything on their computer: they can easily access, modify and run notebooks online with a simple web browser. EPFL Noto files are automatically saved on your EPFL account and remain available there.
+Called [Noto](https://www.epfl.ch/education/educational-initiatives/jupyter-notebooks-for-education/the-jupyter-notebooks-for-education-project/), EPFL’s JupyterLab centralized platform allows teachers and students to use Jupyter (Python) notebooks without having to install anything on their computer: they can easily access, modify and run notebooks online with a simple web browser. EPFL Noto files are automatically saved on your EPFL account and remain available there.
 
 [Click here for an automatic setup for CS-433 on your EPFL Noto and start with the introduction exercise `npprimer.ipynb`.](https://noto.epfl.ch/hub/user-redirect/git-pull?repo=https://github.com/epfml/ML_course&urlpath=lab/tree/ML_course/labs/ex01/npprimer.ipynb)
 
