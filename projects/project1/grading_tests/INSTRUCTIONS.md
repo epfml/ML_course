@@ -22,7 +22,7 @@ We might update the public tests and you should check for new commits to pull be
 The tests will be run in a conda environement created as follow:
 
 ```
-conda create --file=environment.yml --name=project1-grading
+conda env create --file=environment.yml --name=project1-grading
 conda activate project1-grading
 ```
 
