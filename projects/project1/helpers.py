@@ -41,7 +41,7 @@ def load_csv_data(data_path, sub_sample=False):
 
     # sub-sample
     if sub_sample:
-        yb = yb[::50]
+        y_train = y_train[::50]
         x_train = x_train[::50]
         train_ids = train_ids[::50]
 
