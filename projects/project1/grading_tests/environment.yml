@@ -11,3 +11,5 @@ dependencies:
   - gitpython=3.1.18
   - black=22.6.0
   - pytest-mock=3.7.0
+  - pytest-csv=2.0.2
+  - tqdm=4.64.1 
