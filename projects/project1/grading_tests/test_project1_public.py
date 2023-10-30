@@ -21,12 +21,12 @@ GAMMA = 0.1
 
 @pytest.fixture()
 def initial_w():
-    return np.array([[0.5], [1.0]])
+    return np.array([0.5, 1.0])
 
 
 @pytest.fixture()
 def y():
-    return np.array([[0.1], [0.3], [0.5]])
+    return np.array([0.1, 0.3, 0.5])
 
 
 @pytest.fixture()
@@ -105,10 +105,10 @@ def test_no_todo_left(github_repo_path: pathlib.Path):
 
 
 def test_mean_squared_error_gd_0_step(student_implementations, y, tx):
-    expected_w = np.array([[0.413044], [0.875757]])
+    expected_w = np.array([0.413044, 0.875757])
     w, loss = student_implementations.mean_squared_error_gd(y, tx, expected_w, 0, GAMMA)
 
-    expected_w = np.array([[0.413044], [0.875757]])
+    expected_w = np.array([0.413044, 0.875757])
     expected_loss = 2.959836
 
     np.testing.assert_allclose(loss, expected_loss, rtol=RTOL, atol=ATOL)
@@ -122,7 +122,7 @@ def test_mean_squared_error_gd(student_implementations, y, tx, initial_w):
         y, tx, initial_w, MAX_ITERS, GAMMA
     )
 
-    expected_w = np.array([[-0.050586], [0.203718]])
+    expected_w = np.array([-0.050586, 0.203718])
     expected_loss = 0.051534
 
     np.testing.assert_allclose(loss, expected_loss, rtol=RTOL, atol=ATOL)
@@ -138,7 +138,7 @@ def test_mean_squared_error_sgd(student_implementations, y, tx, initial_w):
     )
 
     expected_loss = 0.844595
-    expected_w = np.array([[0.063058], [0.39208]])
+    expected_w = np.array([0.063058, 0.39208])
 
     np.testing.assert_allclose(loss, expected_loss, rtol=RTOL, atol=ATOL)
     np.testing.assert_allclose(w, expected_w, rtol=RTOL, atol=ATOL)
@@ -149,7 +149,7 @@ def test_mean_squared_error_sgd(student_implementations, y, tx, initial_w):
 def test_least_squares(student_implementations, y, tx):
     w, loss = student_implementations.least_squares(y, tx)
 
-    expected_w = np.array([[0.218786], [-0.053837]])
+    expected_w = np.array([0.218786, -0.053837])
     expected_loss = 0.026942
 
     np.testing.assert_allclose(w, expected_w, rtol=RTOL, atol=ATOL)
@@ -163,7 +163,7 @@ def test_ridge_regression_lambda0(student_implementations, y, tx):
     w, loss = student_implementations.ridge_regression(y, tx, lambda_)
 
     expected_loss = 0.026942
-    expected_w = np.array([[0.218786], [-0.053837]])
+    expected_w = np.array([0.218786, -0.053837])
 
     np.testing.assert_allclose(w, expected_w, rtol=RTOL, atol=ATOL)
     np.testing.assert_allclose(loss, expected_loss, rtol=RTOL, atol=ATOL)
@@ -176,7 +176,7 @@ def test_ridge_regression_lambda1(student_implementations, y, tx):
     w, loss = student_implementations.ridge_regression(y, tx, lambda_)
 
     expected_loss = 0.03175
-    expected_w = np.array([[0.054303], [0.042713]])
+    expected_w = np.array([0.054303, 0.042713])
 
     np.testing.assert_allclose(loss, expected_loss, rtol=RTOL, atol=ATOL)
     np.testing.assert_allclose(w, expected_w, rtol=RTOL, atol=ATOL)
@@ -185,7 +185,7 @@ def test_ridge_regression_lambda1(student_implementations, y, tx):
 
 
 def test_logistic_regression_0_step(student_implementations, y, tx):
-    expected_w = np.array([[0.463156], [0.939874]])
+    expected_w = np.array([0.463156, 0.939874])
     y = (y > 0.2) * 1.0
     w, loss = student_implementations.logistic_regression(y, tx, expected_w, 0, GAMMA)
 
@@ -204,7 +204,7 @@ def test_logistic_regression(student_implementations, y, tx, initial_w):
     )
 
     expected_loss = 1.348358
-    expected_w = np.array([[0.378561], [0.801131]])
+    expected_w = np.array([0.378561, 0.801131])
 
     np.testing.assert_allclose(loss, expected_loss, rtol=RTOL, atol=ATOL)
     np.testing.assert_allclose(w, expected_w, rtol=RTOL, atol=ATOL)
@@ -220,7 +220,7 @@ def test_reg_logistic_regression(student_implementations, y, tx, initial_w):
     )
 
     expected_loss = 0.972165
-    expected_w = np.array([[0.216062], [0.467747]])
+    expected_w = np.array([0.216062, 0.467747])
 
     np.testing.assert_allclose(loss, expected_loss, rtol=RTOL, atol=ATOL)
     np.testing.assert_allclose(w, expected_w, rtol=RTOL, atol=ATOL)
@@ -230,7 +230,7 @@ def test_reg_logistic_regression(student_implementations, y, tx, initial_w):
 
 def test_reg_logistic_regression_0_step(student_implementations, y, tx):
     lambda_ = 1.0
-    expected_w = np.array([[0.409111], [0.843996]])
+    expected_w = np.array([0.409111, 0.843996])
     y = (y > 0.2) * 1.0
     w, loss = student_implementations.reg_logistic_regression(
         y, tx, lambda_, expected_w, 0, GAMMA
