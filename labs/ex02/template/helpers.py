@@ -14,7 +14,7 @@ def load_data(sub_sample=True, add_outlier=False):
         delimiter=",",
         skip_header=1,
         usecols=[0],
-        converters={0: lambda x: 0 if "Male" in x else 1},
+        converters={0: lambda x: 0 if "Male" in str(x) else 1},
     )
     # Convert to metric system
     height *= 0.025
