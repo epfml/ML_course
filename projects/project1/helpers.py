@@ -21,8 +21,19 @@ def load_csv_data(data_path, sub_sample=False):
         train_ids (np.array): ids of training data
         test_ids (np.array): ids of test data
     """
+    with open(os.path.join(data_path, "x_train.csv"), 'r') as file:
+       labels = file.readline().strip().split(',') 
+    
+    
     y_train = np.genfromtxt(
         os.path.join(data_path, "y_train.csv"),
+        delimiter=",",
+        skip_header=1,
+        dtype=int,
+        usecols=1,
+    )
+    y_test = np.genfromtxt(
+        os.path.join(data_path, "sample_submission.csv"),
         delimiter=",",
         skip_header=1,
         dtype=int,
@@ -46,7 +57,7 @@ def load_csv_data(data_path, sub_sample=False):
         x_train = x_train[::50]
         train_ids = train_ids[::50]
 
-    return x_train, x_test, y_train, train_ids, test_ids
+    return x_train, x_test, y_train, train_ids, test_ids, y_test, labels
 
 
 def create_csv_submission(ids, y_pred, name):
