@@ -34,7 +34,7 @@ def find_key_by_value(d, value):
     for key, val in d.items():
         if val == value:
             return key
-    return None  # Return None if no match is found
+    return None
 
 def remove_and_update_indices(d, remove_key):
     if remove_key in d:
