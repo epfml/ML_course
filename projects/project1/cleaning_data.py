@@ -4,6 +4,12 @@ from helpers import *
 from utils import remove_features, find_key_by_value
 
 #Defining some constants
+import numpy as np
+import matplotlib.pyplot as plt
+from helpers import *
+from utils import remove_features, find_key_by_value
+
+#Defining some constants
 ACCEPTABLE_NAN_PERCENTAGE = 0.3
 dictionary_features = {
     **dict.fromkeys(['_STATE', 'FMONTH', 'IDATE', 'IMONTH', 'IDAY', 'IYEAR',
@@ -72,7 +78,7 @@ category_features = {'categorical' : ['HLTHPLN1','_STATE','FMONTH','IDATE', 'IMO
                              '_INCOMG', '_SMOKER3', '_RFSMOK3', 'DRNKANY5', '_RFBING5', '_RFDRHV5', '_MISFRTN', '_MISVEGN', '_FRTRESP', '_VEGRESP',
                              '_FRTLT1', '_VEGLT1', '_FRT16', '_VEG23', '_FRUITEX', '_VEGETEX', '_TOTINDA', 'PAMISS1_', '_PACAT1', '_PAINDX1',
                              '_PA150R2', '_PA300R2', '_PA30021', '_PASTRNG', '_PAREC1', '_PASTAE1', '_LMTACT1', '_LMTWRK1', '_LMTSCL1',
-                             '_RFSEAT2', '_RFSEAT3', '_AIDTST3', 'IYEAR', '_RFSMOK3'
+                             '_RFSEAT2', '_RFSEAT3', '_AIDTST3', 'IYEAR', '_RFSMOK3', 'FMONTH', 'GENHLTH', 'CHCKIDNY', 'DIABETE3'
                              
                              
                             ],
@@ -81,7 +87,7 @@ category_features = {'categorical' : ['HLTHPLN1','_STATE','FMONTH','IDATE', 'IMO
             'continuous' : ['WEIGHT2', 'HEIGHT3', 'ALCDAY5', 'FRUITJU1', 'FRUIT1', 'FVBEANS', 'FVGREEN',
                             'FVORANG', 'VEGETAB1', 'STRENGTH', '_AGE80', 'HTIN4', 'WTKG3', 'HTM4', '_BMI5', 'DROCDY3_',
                            '_DRNKWEK', 'FTJUDA1_', 'BEANDAY_', 'GRENDAY_', 'ORNGDAY_', 'VEGEDA1_', '_FRUTSUM', '_FRUTSUM',
-                           'MAXVO2_', 'FC60_', 'STRFREQ_', 'PHYSHLTH', 'IDAY', 'CHILDREN'],
+                           'MAXVO2_', 'FC60_', 'STRFREQ_', 'PHYSHLTH', 'IDAY', 'CHILDREN', 'MENTHLTH', 'FRUTDA1_', '_STRWT', '_VEGESUM'],
             
             'not_sure' : ['SEQNO', '_PSU' , '_STSTR', '_STRWT', '_RAWRAKE', ' _WT2RAKE', '_LLCPWT']
            }
@@ -93,29 +99,30 @@ def clean_data_x(x_train, labels):
     :return: cleaned data
     """
     #Removing the first label which is the id
-    labels.pop(0) 
     features_number = x_train.shape[1]
+    features = list(dict.fromkeys(labels))  
+    features = [features[i]  for i in range(features_number)]
+    features = {word: index for index, word in enumerate(features)}
 
     #Removing columns with more than ACCEPTABLE_NAN_PERCENTAGE of NaN values
     mask_nan_columns = [(np.count_nonzero(np.isnan(x_train[:, i]))/x_train.shape[0]) < ACCEPTABLE_NAN_PERCENTAGE for i in range (0, features_number)]
     x_train = x_train[:, mask_nan_columns]
-
-    features_number = x_train.shape[1]
-    #Creating features list
-    features = list(dict.fromkeys(labels))
-    features = [features[i]  for i in range (0,features_number) if mask_nan_columns[i]]
+    features = list(dict.fromkeys(labels))  
+    features = [features[i]  for i in range (features_number) if mask_nan_columns[i]]
     features = {word: index for index, word in enumerate(features)}
-
+    #Creating features list
+    
+    print(len(features))
     #We handle the date and rescale some of the features
     x_train = handling_data(x_train, features)
 
     #We remove the features that are not useful
     features, x_train = remove_features(x_train, ['WEIGHT2', 'HEIGHT3'], features)
-
-    x_train, features = handle_correlation(x_train, features)
    
+    x_train, features = handle_correlation(x_train, features)
+    print(np.sum(np.isnan(x_train)))
     x_train = apply_pca(x_train)
-    
+
     return x_train
 
 def handling_data(x_train, features):
@@ -128,16 +135,17 @@ def handling_data(x_train, features):
     for feature in features.keys() :
     
         dict_special_value_handle = dictionary_features[feature]
-    
+
+
         for special_value in dict_special_value_handle.keys() :
             #For special values meaning not sure, we change by the median
             if special_value == 'dont_know_not_sure' :
                 x_train[x_train[:, features[feature]] == dict_special_value_handle[special_value], features[feature]] = np.nanmedian(x_train[:, features[feature]])
-            
+                
             #For special values meaning none, we change by 0
             elif special_value == 'never' or special_value == 'none'  :
                 x_train[x_train[:, features[feature]] == dict_special_value_handle[special_value], features[feature]] = 0
-                
+                    
             #For special values meaning refused, we change by NaN
             elif special_value == 'refused' :
                 x_train[x_train[:, features[feature]] == dict_special_value_handle[special_value], features[feature]] = np.nan
@@ -212,10 +220,10 @@ def handle_correlation(x_train, features):
     correlation_limit = 0.7
     correlation_tuple_list = []
     correlation_list = []
+
     for i in range(x_train_no_nan.shape[1]) : 
         for j in range(i, x_train_no_nan.shape[1]) : 
             if i != j and features_correlation[i,j] >= correlation_limit : 
-                
                 correlation_tuple_list.append((find_key_by_value(features, i) , find_key_by_value(features, j)))
                 correlation_list.append(find_key_by_value(features, i))
                 correlation_list.append(find_key_by_value(features, j))
@@ -248,14 +256,16 @@ def apply_pca(x_train):
     :param x_train: training data
     :return: pca applied data
     """
-    
     mean = np.nanmean(x_train, axis=0)
     x_tilde = x_train - mean
+    print(x_tilde)
     cov_matrix = np.cov(x_tilde, rowvar=False)
+    print(cov_matrix)
     eigvals, eigvecs = np.linalg.eigh(cov_matrix)
-
+    print(eigvals)
     eigvals = eigvals[::-1]
     eigvecs = eigvecs[:, ::-1]
+
 
     num_dimensions = 35
     W = eigvecs[:, 0 : num_dimensions]
