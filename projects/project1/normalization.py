@@ -19,4 +19,5 @@ def z_score_normalization(x):
     """
     mean_val = np.mean(x)
     std_val = np.std(x)
+    
     return (x - mean_val) / std_val

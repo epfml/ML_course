@@ -8,6 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from helpers import *
 from utils import remove_features, find_key_by_value
+from normalization import z_score_normalization, min_max_normalization
 
 #Defining some constants
 ACCEPTABLE_NAN_PERCENTAGE = 0.3
@@ -107,20 +108,22 @@ def clean_data_x(x_train, labels):
     #Removing columns with more than ACCEPTABLE_NAN_PERCENTAGE of NaN values
     mask_nan_columns = [(np.count_nonzero(np.isnan(x_train[:, i]))/x_train.shape[0]) < ACCEPTABLE_NAN_PERCENTAGE for i in range (0, features_number)]
     x_train = x_train[:, mask_nan_columns]
+
+    #Creating features list
     features = list(dict.fromkeys(labels))  
     features = [features[i]  for i in range (features_number) if mask_nan_columns[i]]
     features = {word: index for index, word in enumerate(features)}
-    #Creating features list
-    
-    print(len(features))
+   
     #We handle the date and rescale some of the features
     x_train = handling_data(x_train, features)
-
+    
     #We remove the features that are not useful
     features, x_train = remove_features(x_train, ['WEIGHT2', 'HEIGHT3'], features)
-   
+
     x_train, features = handle_correlation(x_train, features)
-    print(np.sum(np.isnan(x_train)))
+
+    #normalize the data
+    x_train = normalize_data(x_train, features)
     x_train = apply_pca(x_train)
 
     return x_train
@@ -249,6 +252,12 @@ def handle_correlation(x_train, features):
     features = {feature: i for i, feature in enumerate(features.keys())}
 
     return x_train, features
+
+def normalize_data(x, features) :s
+    for feature in category_features['continuous'] :
+        if feature in features :
+            x[:, features[feature]] = z_score_normalization(x[:, features[feature]])
+    return x
 
 def apply_pca(x_train):
     """
