@@ -103,7 +103,7 @@ def clean_data_x(x_train, labels):
     features_number = x_train.shape[1]
     #Creating features list
     features = list(dict.fromkeys(labels))
-    features = [features[i]  for i in range (0,features_number-1) if mask_nan_columns[i]]
+    features = [features[i]  for i in range (0,features_number) if mask_nan_columns[i]]
     features = {word: index for index, word in enumerate(features)}
 
     #We handle the date and rescale some of the features
