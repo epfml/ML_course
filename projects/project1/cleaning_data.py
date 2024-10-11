@@ -113,9 +113,9 @@ def clean_data_x(x_train, labels):
     features, x_train = remove_features(x_train, ['WEIGHT2', 'HEIGHT3'], features)
 
     x_train, features = handle_correlation(x_train, features)
-
+   
     x_train = apply_pca(x_train)
-
+    
     return x_train
 
 def handling_data(x_train, features):
@@ -248,6 +248,7 @@ def apply_pca(x_train):
     :param x_train: training data
     :return: pca applied data
     """
+    
     mean = np.nanmean(x_train, axis=0)
     x_tilde = x_train - mean
     cov_matrix = np.cov(x_tilde, rowvar=False)
