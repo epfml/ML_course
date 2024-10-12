@@ -30,3 +30,26 @@ def IQR(arr) :
     lower_bound = Q1 - 1.5 * IQR
     upper_bound = Q3 + 1.5 * IQR
     return lower_bound, upper_bound
+
+def f1_score(y_true, y_pred):
+    """
+    Compute the F1 score
+    :param y_true: true labels
+    :param y_pred: predicted labels
+    Maybe we should use only one column in the y_true and y_pred
+    :return: F1 score
+    """
+    tp = np.sum((y_true == 1) & (y_pred == 1))
+    fp = np.sum((y_true == -1) & (y_pred == 1))
+    fn = np.sum((y_true == 1) & (y_pred == -1))
+    return tp / (tp + 0.5 * (fp + fn))
+
+def accuracy(y_true, y_pred):
+    """"
+    Compute the accuracy
+    :param y_true: true labels
+    :param y_pred: predicted labels
+    Maybe we should use only one column in the y_true and y_pred
+    :return: accuracy
+    """
+    return np.sum(y_true == y_pred) / len(y_true)

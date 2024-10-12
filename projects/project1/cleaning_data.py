@@ -253,7 +253,7 @@ def handle_correlation(x_train, features):
 
     return x_train, features
 
-def normalize_data(x, features) :s
+def normalize_data(x, features) :
     for feature in category_features['continuous'] :
         if feature in features :
             x[:, features[feature]] = z_score_normalization(x[:, features[feature]])
