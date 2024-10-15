@@ -16,7 +16,7 @@ from config import dictionary_features, category_features
 #Defining some constants
 median_and_most_probable_class = {}
 
-ACCEPTABLE_NAN_PERCENTAGE = 0
+ACCEPTABLE_NAN_PERCENTAGE = 0.1
 
 
 def clean_data_x(x_train, labels):
@@ -49,7 +49,7 @@ def clean_data_x(x_train, labels):
     #features, x_train = remove_features(x_train, ['WEIGHT2', 'HEIGHT3', 'SEQNO', '_PSU' , '_STSTR', '_STRWT', '_RAWRAKE', '_WT2RAKE', 'DISPCODE','_LLCPWT','IYEAR','IMONTH','INTERNET','FMONTH','IDATE'  ], features)
    
     x_train = handle_nan(x_train, features)
-    x_train, features = handle_correlation(x_train, features)
+    #x_train, features = handle_correlation(x_train, features)
     #normalize the data
     x_train = normalize_data(x_train, features)
     x_train = apply_pca(x_train)
@@ -119,12 +119,6 @@ def day_week_month_rescale(x, feature_name, scaling_mode, features):
 
     return x
     
-def handle_nan2(x_train, features) :
-    # Replace NaN in categorical features with the median value
-    x_train = np.nan_to_num(x_train, nan = -1)
-    return x_train
-
-
 def handle_nan(x_train, features) :
     # Replace NaN in categorical features with the median value
     for feature in features:
@@ -179,8 +173,10 @@ def handle_correlation(x_train, features):
 
     return x_train, features
 
-def normalize_data(x, features) :
-    x = (x - np.mean(x, axis=0)) / np.std(x, axis=0)
+def normalize_data(x, features):
+    std_dev = np.std(x, axis=0)
+    std_dev[std_dev == 0] = 1  # Prevent division by zero for constant features
+    x = (x - np.mean(x, axis=0)) / std_dev
     return x
 
 def apply_pca(x_train):
@@ -197,7 +193,7 @@ def apply_pca(x_train):
     eigvecs = eigvecs[:, ::-1]
 
 
-    num_dimensions = 20
+    num_dimensions = 30
     W = eigvecs[:, 0 : num_dimensions]
     eg = eigvals[0 : num_dimensions]
 

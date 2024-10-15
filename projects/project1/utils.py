@@ -1,22 +1,29 @@
 import numpy as np
 
-def convert_number_to_string(num):
-    # If the number is an integer, return it as a string
-    if num.is_integer():
-        return str(int(num))
-    else:
-        # Otherwise, return it as a string without unnecessary zeros
-        return str(num)
-    
-def modf(number) :
-    decimal = number - int(number)
-    return round(decimal, 2)
 
-def has_fractional_part(num):
-    if np.isnan(num) :
-        return False
-    fractional_part = modf(num)
-    return fractional_part != 0.0
+
+
+
+
+def downsample_class_0(X, y, downsample_size_0):
+    # Separate the samples with label 0 and label 1
+    indices_class_0 = np.where(y == 0)[0]
+    indices_class_1 = np.where(y == 1)[0]
+    
+    # Downsample the class 0 samples
+    selected_indices_class_0 = np.random.choice(indices_class_0, size=downsample_size_0, replace=False)
+    
+    # Combine the downsampled class 0 samples with all class 1 samples
+    combined_indices = np.concatenate([selected_indices_class_0, indices_class_1])
+    
+    # Shuffle the combined indices to mix the samples
+    np.random.shuffle(combined_indices)
+    
+    # Select the corresponding rows from X and y
+    X_downsampled = X[combined_indices]
+    y_downsampled = y[combined_indices]
+    
+    return X_downsampled, y_downsampled
 
 
 def remove_features(x, features_to_remove, features) :

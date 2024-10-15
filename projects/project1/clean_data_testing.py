@@ -29,7 +29,7 @@ def apply_pca(x_train):
     eigvecs = eigvecs[:, ::-1]
 
 
-    num_dimensions = 20
+    num_dimensions = 30
     W = eigvecs[:, 0 : num_dimensions]
     eg = eigvals[0 : num_dimensions]
 

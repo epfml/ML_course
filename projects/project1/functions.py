@@ -18,10 +18,8 @@ def sigmoid(t):
     >>> sigmoid(np.array([0.1, 0.1]))
     array([0.52497919, 0.52497919])
     """
-    t = np.clip(t, -709, 709)
-    return np.where(t >= 0,
-                    1 / (1 + np.exp(-t)),
-                    np.exp(t) / (1 + np.exp(t)))
+    
+    return 1 / (1 + np.exp(-t))
 
 def calculate_loss(y, tx, w):
     """compute the cost by negative log likelihood.
@@ -43,22 +41,15 @@ def calculate_loss(y, tx, w):
     assert y.shape[0] == tx.shape[0]
     assert tx.shape[1] == w.shape[0]
 
-    # Compute the logits (z)
-    z = np.dot(tx, w)
+    epsilon = 1e-15
+    sigmoid_output = sigmoid(tx@w)
+    negative_log_loss = -np.mean(y * np.log(np.clip(sigmoid_output, epsilon, 1 - epsilon)) + (1 - y) * np.log(np.clip(1 - sigmoid_output, epsilon, 1 - epsilon)))
     
-    # Sigmoid function to get probabilities
-    p = sigmoid(z)  
-    
-    
-    
-    loss = np.mean(np.log(1 + np.exp(-y * z))) 
-    
-    return loss
+    return negative_log_loss
 
 
 
-
-def calculate_gradient(y, tx, w, alpha):
+def calculate_gradient(y, tx, w):
     """compute the gradient of loss.
 
     Args:
@@ -78,22 +69,11 @@ def calculate_gradient(y, tx, w, alpha):
            [ 0.2067104 ],
            [ 0.51712843]])
     """
-    # Compute the linear combination w^T x for each sample
-    z = np.dot(tx, w)
-    # Sigmoid for each sample (this gives the probabilities)
-    predictions = sigmoid(y * z)
-    # Gradient of the loss
- 
-    
-    # Modify the gradient calculation to include alpha
-    gradient = (1 / y.shape[0]) * tx.T @ (-y * (1 - predictions) * (alpha * (y == 1) + (y == -1)))
-    
-    return gradient
-
+    return (1/y.shape[0])*tx.T@(sigmoid(tx@w) - y)
 
 
     
-def logistic_regression(y, tx, w, alpha):
+def logistic_regression(y, tx, w):
     """return the loss, gradient of the loss, and hessian of the loss.
 
     Args:
@@ -119,11 +99,11 @@ def logistic_regression(y, tx, w, alpha):
            [0.3861498 , 0.62182124, 0.85749269],
            [0.48268724, 0.85749269, 1.23229813]]))
     """
-    return calculate_loss(y, tx, w), calculate_gradient(y, tx, w, alpha)
+    return calculate_loss(y, tx, w), calculate_gradient(y, tx, w)
 
 
 
-def penalized_logistic_regression(y, tx, w, lambda_, alpha):
+def penalized_logistic_regression(y, tx, w, lambda_):
     """return the loss and gradient.
 
     Args:
@@ -148,14 +128,14 @@ def penalized_logistic_regression(y, tx, w, lambda_, alpha):
            [ 0.2467104 ],
            [ 0.57712843]])
     """
-    loss, gradient = logistic_regression(y, tx, w, alpha)
+    loss, gradient = logistic_regression(y, tx, w)
 
     loss = loss + lambda_*np.dot(w, w)
     gradient = gradient + 2*lambda_*w
     
     return loss, gradient
 
-def learning_by_penalized_gradient(y, tx, w, gamma, lambda_, alpha):
+def learning_by_penalized_gradient(y, tx, w, gamma, lambda_):
     """
     Do one step of gradient descent, using the penalized logistic regression.
     Return the loss and updated w.
@@ -185,15 +165,15 @@ def learning_by_penalized_gradient(y, tx, w, gamma, lambda_, alpha):
            [0.17532896],
            [0.24228716]])
     """
-    loss, gradient = penalized_logistic_regression(y, tx, w,lambda_, alpha)
-    
+    loss, gradient = penalized_logistic_regression(y, tx, w,lambda_)
+
     w = w - gamma*gradient
     return loss, w
 
 
 
 
-def stochastic_gradient_descent(y, tx, initial_w, batch_size, max_iters, gamma, lambda_, alpha):
+def stochastic_gradient_descent(y, tx, initial_w, batch_size, max_iters, gamma, lambda_):
     """The Stochastic Gradient Descent algorithm (SGD).
 
     Args:
@@ -218,7 +198,7 @@ def stochastic_gradient_descent(y, tx, initial_w, batch_size, max_iters, gamma, 
         for minibatch_y, minibatch_tx in batch_iter(y,tx,batch_size) :
             
              
-            loss, w = learning_by_penalized_gradient(minibatch_y, minibatch_tx, w, gamma, lambda_, alpha)
+            loss, w = learning_by_penalized_gradient(minibatch_y, minibatch_tx, w, gamma, lambda_)
             ws.append(w)
             losses.append(loss)
             
@@ -320,5 +300,6 @@ def batch_iter(y, tx, batch_size, num_batches=1, shuffle=True):
         )  # The first data point of the following batch
         yield y[start_index:end_index], tx[start_index:end_index]
 
-
+def predict(y, tx ,w) :
+    return np.where(sigmoid(tx@w) >= 0.5, 1, -1)
 
