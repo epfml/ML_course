@@ -31,6 +31,7 @@ def IQR(arr) :
     upper_bound = Q3 + 1.5 * IQR
     return lower_bound, upper_bound
 
+
 def f1_score(y_true, y_pred):
     """
     Compute the F1 score
@@ -40,9 +41,12 @@ def f1_score(y_true, y_pred):
     :return: F1 score
     """
     tp = np.sum((y_true == 1) & (y_pred == 1))
+    positive = np.sum((y_true == 1))
+
+    
     fp = np.sum((y_true == -1) & (y_pred == 1))
     fn = np.sum((y_true == 1) & (y_pred == -1))
-    return tp / (tp + 0.5 * (fp + fn))
+    return tp / (tp + 0.5 * (fp + fn)), tp/positive
 
 def accuracy(y_true, y_pred):
     """"
