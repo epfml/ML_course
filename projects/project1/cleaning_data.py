@@ -7,7 +7,7 @@ from poly import *
 import numpy as np
 import matplotlib.pyplot as plt
 from helpers import *
-from utils import remove_features, find_key_by_value, apply_pca
+from utils import remove_features, find_key_by_value, create_pca
 from normalization import z_score_normalization, min_max_normalization
 
 from config import dictionary_features, category_features
