@@ -18,6 +18,7 @@ def sigmoid(t):
     >>> sigmoid(np.array([0.1, 0.1]))
     array([0.52497919, 0.52497919])
     """
+
     
     return 1 / (1 + np.exp(-t))
 
@@ -38,10 +39,14 @@ def calculate_loss(y, tx, w):
     >>> round(calculate_loss(y, tx, w), 8)
     1.52429481
     """
+    
     assert y.shape[0] == tx.shape[0]
     assert tx.shape[1] == w.shape[0]
 
+    #add an espilon to ensure that if there is a value very close to 0 it doesn't do log of a zero value
     epsilon = 1e-15
+
+    #compute the negative log loss
     sigmoid_output = sigmoid(tx@w)
     negative_log_loss = -np.mean(y * np.log(np.clip(sigmoid_output, epsilon, 1 - epsilon)) + (1 - y) * np.log(np.clip(1 - sigmoid_output, epsilon, 1 - epsilon)))
     

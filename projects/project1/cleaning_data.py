@@ -14,12 +14,12 @@ from config import dictionary_features, category_features
 
 
 #Defining some constants
-median_and_most_probable_class = {}
 
+median_and_most_probable_class = {}
 ACCEPTABLE_NAN_PERCENTAGE = 0.1
 
 
-def clean_data_x(x_train, labels):
+def clean_train_data(x_train, labels):
     """
     Cleaning data
     :param x_train: training data
