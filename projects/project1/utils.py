@@ -1,17 +1,19 @@
 import numpy as np
 
-def apply_pca_given_components(x_data, mean, W):
+def apply_pca_given_components(X, mean, W):
     """
-    Apply the PCA transformation using the principal components from the training set.
-    :param x_data: data to be transformed (can be training or test data)
-    :param mean: the mean computed from the training set
-    :param W: the principal components (eigenvectors) from the training set
-    :return: the transformed data
+    Apply the PCA transformation from a specific PCA.
+    Args : 
+        X: data to apply PCA on
+        mean : the mean of the PCA to apply
+        W : the principal components of the PCA to apply
+    Returns :
+        x_pca : PCA applied on the data
     """
-    # Step 1: Subtract the training set mean
-    x_tilde = x_data - mean
+    #Subtract by the mean
+    x_tilde = X - mean
     
-    # Step 2: Project the data onto the principal components
+    #Project the data onto the principal components
     x_pca = np.dot(x_tilde, W)
     
     return x_pca
@@ -19,44 +21,60 @@ def apply_pca_given_components(x_data, mean, W):
 
 
 
-def apply_pca(x_train, variance_threshold=0.90):
+def create_pca(X, variance_threshold=0.90):
     """
-    Apply PCA to the data, retaining a specified percentage of variance.
-    :param x_train: training data
-    :param variance_threshold: the desired amount of variance to retain (default 95%)
-    :return: PCA applied data
-    """
-    # Step 1: Mean-center the data
-    mean = np.nanmean(x_train, axis=0)
-    x_tilde = x_train - mean
+    Create a PCA given the data, retaining a specified percentage of variance.
     
-    # Step 2: Compute covariance matrix
+    Args : 
+        X : data
+        variance_threshold: the desired amount of variance to retain (default 90%)
+        
+    Returns :
+        x_pca : PCA applied on the data, X
+        W : the principal components of the PCA
+        mean : the mean of x_train 
+        
+    """
+
+    mean = np.nanmean(X, axis=0)
+    x_tilde = X - mean
+    
+
     cov_matrix = np.cov(x_tilde, rowvar=False)
     
-    # Step 3: Eigen decomposition
+    #Eigen decomposition
     eigvals, eigvecs = np.linalg.eigh(cov_matrix)
     eigvals = eigvals[::-1]  # Sort eigenvalues in descending order
     eigvecs = eigvecs[:, ::-1]  # Sort eigenvectors accordingly
     
-    # Step 4: Calculate cumulative variance explained by the principal components
+    #Calculate cumulative variance explained by the principal components
     explained_variance_ratio = eigvals / np.sum(eigvals)
     cumulative_variance = np.cumsum(explained_variance_ratio)
     
-    # Step 5: Determine the number of components to retain based on the variance threshold
+    #Determine the number of components to retain based on the variance threshold
     num_dimensions = np.argmax(cumulative_variance >= variance_threshold) + 1
     print(f"Number of components to retain {variance_threshold * 100}% variance: {num_dimensions}")
     
-    # Step 6: Select the top principal components
+    #Select the top principal components
     W = eigvecs[:, :num_dimensions]  # Select top components based on variance retention
     
-    # Step 7: Project the data onto the selected principal components
+    #Project the data onto the selected principal components
     x_pca = np.dot(x_tilde, W)
     
     return x_pca, W, mean
 
-
-
 def upsample_class_1_to_percentage(X, y, desired_percentage):
+    """
+    Apply a upsampling to obtain the desired percentage of 1 among the data.
+        
+        Args : 
+            X: X data to upsample
+            y : y data to usample
+            desired_precentage : the desired repartition of 1 among the data
+        Returns :
+            X_upsampled : X upsampled to attain the desired percentage
+            y_upsampled : y upsampled to attain the desired percentage
+    """
     # Find the indices of class 0 (majority class) and class 1 (minority class)
     indices_class_1 = np.where(y == 1)[0]
     indices_class_0 = np.where(y == 0)[0]
@@ -88,7 +106,22 @@ def upsample_class_1_to_percentage(X, y, desired_percentage):
 
 
 
-def downsample_class_0(X, y, downsample_size_0):
+def downsample_class_0(X, y, desired_percentage):
+    """
+    Apply a downsampling to obtain the desired percentage of 0 among the data.
+    
+    Args : 
+        X: data to upsample
+        y : 
+        desired_precentage : the desired repartition of 1 among the data
+    Returns :
+        X_upsampled : X upsampled to attain the desired percentage
+        y_upsampled : y upsampled to attain the desired percentage
+        
+    """
+    N_pos = len(np.where(y == 1)[0])
+    N_neg = len(np.where(y == 0)[0])
+    down_sample_size_0 = calculate_downsample_size(N_pos, N_neg, desired_percentage)
     # Separate the samples with label 0 and label 1
     indices_class_0 = np.where(y == 0)[0]
     indices_class_1 = np.where(y == 1)[0]
@@ -182,57 +215,13 @@ def split_data(x, y, ratio, seed=1):
     return x_tr, x_te, y_tr, y_te
 
 
+def calculate_downsample_size(N_pos, N_neg, desired_percentage):
+    # Calculate the required downsample size for the negative class
+    downsample_size_neg = int((N_pos * (1 - desired_percentage)) / desired_percentage)
+    
+    # Ensure we do not downsample more than available negative samples
+    downsample_size_neg = min(downsample_size_neg, N_neg)
+    
+    return downsample_size_neg
 
 
-
-def stratified_train_test_split(X, y, test_size=0.2, random_seed=None):
-    """
-    Split X and y into train and test sets while maintaining the distribution of classes.
-    
-    Parameters:
-    - X: Feature matrix, shape (n_samples, n_features)
-    - y: Labels, shape (n_samples,)
-    - test_size: Proportion of the dataset to include in the test split (default=0.2)
-    - random_seed: Seed for reproducibility (default=None)
-    
-    Returns:
-    - X_train, X_test, y_train, y_test
-    """
-
-       
-    
-    # Get unique classes and their indices
-    classes, y_indices = np.unique(y, return_inverse=True)
-    
-    # Initialize lists for stratified splits
-    X_train, X_test = [], []
-    y_train, y_test = [], []
-    
-    # Loop through each class and split data accordingly
-    for class_label in classes:
-        # Get the indices of the samples with the current class label
-        class_indices = np.where(y == class_label)[0]
-        
-        # Shuffle the class-specific data
-        np.random.seed(random_seed)
-        np.random.shuffle(class_indices)
-        
-        # Split based on test_size
-        split_idx = int(len(class_indices) * (1 - test_size))
-        
-        train_idx = class_indices[:split_idx]
-        test_idx = class_indices[split_idx:]
-        
-        # Append stratified data to train and test lists
-        X_train.append(X[train_idx])
-        X_test.append(X[test_idx])
-        y_train.append(y[train_idx])
-        y_test.append(y[test_idx])
-    
-    # Concatenate lists into arrays
-    X_train = np.concatenate(X_train)
-    X_test = np.concatenate(X_test)
-    y_train = np.concatenate(y_train)
-    y_test = np.concatenate(y_test)
-    
-    return X_train, X_test, y_train, y_test
