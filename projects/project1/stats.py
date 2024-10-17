@@ -42,7 +42,7 @@ def f1_score(y_true, y_pred):
     """
     tp = np.sum((y_true == 1) & (y_pred == 1))
     positive = np.sum((y_true == 1))
-
+    negative = np.sum((y_true == -1))
     
     fp = np.sum((y_true == -1) & (y_pred == 1))
     fn = np.sum((y_true == 1) & (y_pred == -1))

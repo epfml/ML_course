@@ -1,7 +1,90 @@
 import numpy as np
 
+def apply_pca_given_components(x_data, mean, W):
+    """
+    Apply the PCA transformation using the principal components from the training set.
+    :param x_data: data to be transformed (can be training or test data)
+    :param mean: the mean computed from the training set
+    :param W: the principal components (eigenvectors) from the training set
+    :return: the transformed data
+    """
+    # Step 1: Subtract the training set mean
+    x_tilde = x_data - mean
+    
+    # Step 2: Project the data onto the principal components
+    x_pca = np.dot(x_tilde, W)
+    
+    return x_pca
 
 
+
+
+def apply_pca(x_train, variance_threshold=0.90):
+    """
+    Apply PCA to the data, retaining a specified percentage of variance.
+    :param x_train: training data
+    :param variance_threshold: the desired amount of variance to retain (default 95%)
+    :return: PCA applied data
+    """
+    # Step 1: Mean-center the data
+    mean = np.nanmean(x_train, axis=0)
+    x_tilde = x_train - mean
+    
+    # Step 2: Compute covariance matrix
+    cov_matrix = np.cov(x_tilde, rowvar=False)
+    
+    # Step 3: Eigen decomposition
+    eigvals, eigvecs = np.linalg.eigh(cov_matrix)
+    eigvals = eigvals[::-1]  # Sort eigenvalues in descending order
+    eigvecs = eigvecs[:, ::-1]  # Sort eigenvectors accordingly
+    
+    # Step 4: Calculate cumulative variance explained by the principal components
+    explained_variance_ratio = eigvals / np.sum(eigvals)
+    cumulative_variance = np.cumsum(explained_variance_ratio)
+    
+    # Step 5: Determine the number of components to retain based on the variance threshold
+    num_dimensions = np.argmax(cumulative_variance >= variance_threshold) + 1
+    print(f"Number of components to retain {variance_threshold * 100}% variance: {num_dimensions}")
+    
+    # Step 6: Select the top principal components
+    W = eigvecs[:, :num_dimensions]  # Select top components based on variance retention
+    
+    # Step 7: Project the data onto the selected principal components
+    x_pca = np.dot(x_tilde, W)
+    
+    return x_pca, W, mean
+
+
+
+def upsample_class_1_to_percentage(X, y, desired_percentage):
+    # Find the indices of class 0 (majority class) and class 1 (minority class)
+    indices_class_1 = np.where(y == 1)[0]
+    indices_class_0 = np.where(y == 0)[0]
+    
+    # Number of samples in each class
+    num_class_1 = len(indices_class_1)
+    num_class_0 = len(indices_class_0)
+    
+    # Calculate the total number of samples needed for the desired percentage
+    total_size = int(num_class_0 / (1 - desired_percentage))
+    
+    # Calculate the number of class 1 samples needed to reach the desired percentage
+    target_num_class_1 = int(total_size * desired_percentage)
+    
+    # Upsample class 1 by randomly duplicating samples until reaching the target number
+    upsampled_indices_class_1 = np.random.choice(indices_class_1, size=target_num_class_1, replace=True)
+    
+    # Combine the upsampled class 1 samples with all class 0 samples
+    combined_indices = np.concatenate([indices_class_0, upsampled_indices_class_1])
+    
+    # Shuffle the combined dataset to avoid ordering bias
+    np.random.shuffle(combined_indices)
+    
+    # Return the upsampled feature matrix and label vector
+    X_upsampled = X[combined_indices]
+    y_upsampled = y[combined_indices]
+    
+    return X_upsampled, y_upsampled
 
 
 

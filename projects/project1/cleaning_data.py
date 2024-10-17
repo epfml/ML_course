@@ -7,7 +7,7 @@ from poly import *
 import numpy as np
 import matplotlib.pyplot as plt
 from helpers import *
-from utils import remove_features, find_key_by_value
+from utils import remove_features, find_key_by_value, apply_pca
 from normalization import z_score_normalization, min_max_normalization
 
 from config import dictionary_features, category_features
@@ -48,13 +48,14 @@ def clean_data_x(x_train, labels):
     #We remove the features that are not useful
     #features, x_train = remove_features(x_train, ['WEIGHT2', 'HEIGHT3', 'SEQNO', '_PSU' , '_STSTR', '_STRWT', '_RAWRAKE', '_WT2RAKE', 'DISPCODE','_LLCPWT','IYEAR','IMONTH','INTERNET','FMONTH','IDATE'  ], features)
    
-    x_train = handle_nan(x_train, features)
+    #x_train = handle_nan(x_train, features)
+    x_train = np.nan_to_num(x_train, nan = -1)
     #x_train, features = handle_correlation(x_train, features)
     #normalize the data
     x_train = normalize_data(x_train, features)
-    x_train = apply_pca(x_train)
+    x_train, W, mean = apply_pca(x_train)
 
-    return x_train, features, median_and_most_probable_class
+    return x_train, features, median_and_most_probable_class, W, mean
 
 def handling_data(x_train, features):
     """
@@ -125,7 +126,6 @@ def handle_nan(x_train, features) :
         median_value = np.nanmedian(x_train[:, features[feature]])
         median_and_most_probable_class[feature] = median_value
         x_train[: ,features[feature]] = np.nan_to_num(x_train[:,features[feature]], nan = median_value)
-
   
     return x_train
     
@@ -140,7 +140,7 @@ def handle_correlation(x_train, features):
     features_correlation = np.corrcoef(x_train, rowvar=False)
 
     # Find the features that are highly correlated
-    correlation_limit = 0.5
+    correlation_limit = 0.8
     correlation_tuple_list = []
     correlation_list = []
 
@@ -179,23 +179,4 @@ def normalize_data(x, features):
     x = (x - np.mean(x, axis=0)) / std_dev
     return x
 
-def apply_pca(x_train):
-    """
-    Apply PCA to the data
-    :param x_train: training data
-    :return: pca applied data
-    """
-    mean = np.nanmean(x_train, axis=0)
-    x_tilde = x_train - mean
-    cov_matrix = np.cov(x_tilde, rowvar=False)
-    eigvals, eigvecs = np.linalg.eigh(cov_matrix)
-    eigvals = eigvals[::-1]
-    eigvecs = eigvecs[:, ::-1]
 
-
-    num_dimensions = 30
-    W = eigvecs[:, 0 : num_dimensions]
-    eg = eigvals[0 : num_dimensions]
-
-    x_pca = np.dot(x_tilde, W)
-    return x_pca

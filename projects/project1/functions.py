@@ -193,7 +193,8 @@ def stochastic_gradient_descent(y, tx, initial_w, batch_size, max_iters, gamma, 
     ws = [initial_w]
     losses = []
     w = initial_w
-
+    threshold = 1e-8
+    
     for n_iter in range(max_iters):
         for minibatch_y, minibatch_tx in batch_iter(y,tx,batch_size) :
             
@@ -201,7 +202,9 @@ def stochastic_gradient_descent(y, tx, initial_w, batch_size, max_iters, gamma, 
             loss, w = learning_by_penalized_gradient(minibatch_y, minibatch_tx, w, gamma, lambda_)
             ws.append(w)
             losses.append(loss)
-            
+            if len(losses) > 1 and np.abs(losses[-1] - losses[-2]) < threshold:
+                break
+        
     return losses, ws
     
 def learning_by_gradient_descent(y, tx, w, gamma):
@@ -300,6 +303,6 @@ def batch_iter(y, tx, batch_size, num_batches=1, shuffle=True):
         )  # The first data point of the following batch
         yield y[start_index:end_index], tx[start_index:end_index]
 
-def predict(y, tx ,w) :
+def predict(tx ,w) :
     return np.where(sigmoid(tx@w) >= 0.5, 1, -1)
 
