@@ -105,3 +105,11 @@ ENV/
 *.cb2
 *.fdb_latexmk
 *.synctex.gz
+projects/project1/data/dataset/dataset/sample_submission.csv
+projects/project1/data/dataset/dataset/x_test.csv
+projects/project1/data/dataset/dataset/x_train.csv
+projects/project1/data/dataset/dataset/y_train.csv
+projects/project1/x_train_cleaned.csv
+projects/project1/data/dataset/dataset/x_train_clean.csv
+projects/project1/data/dataset/dataset/x_train_cleaned.csv
+projects/project1/latex-example-paper.zip
