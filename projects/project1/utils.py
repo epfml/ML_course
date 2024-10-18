@@ -225,3 +225,21 @@ def calculate_downsample_size(N_pos, N_neg, desired_percentage):
     return downsample_size_neg
 
 
+def build_poly(x, degree) :
+    """Polynomial basis functions for input data x, for j=0 up to j=degree.
+
+    Args:
+        x (np.ndarray, (N,)): array of shape, N is the number of samples.
+        degree (int, optional): degree of the polynomial. Defaults to 1.
+
+    Returns:
+        poly (np.ndarray, (N,d+1)): the computed polynomial features.
+    """
+    poly = None
+    for deg in range(1, degree + 1):
+        if poly is None:
+            poly = np.power(x, deg)
+        else:
+            poly = np.c_[poly, np.power(x, deg)]
+    return poly
+

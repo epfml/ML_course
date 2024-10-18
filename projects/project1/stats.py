@@ -1,5 +1,7 @@
 import numpy as np
 
+
+
 def calculate_excess_kurtosis(arr):
     mean = np.nanmean(arr)
     std = np.nanstd(arr)
@@ -32,7 +34,7 @@ def IQR(arr) :
     return lower_bound, upper_bound
 
 
-def f1_score(y_true, y_pred):
+def f1_score(y_true, y_pred) :
     """
     Compute the F1 score
     :param y_true: true labels
@@ -46,7 +48,7 @@ def f1_score(y_true, y_pred):
     
     fp = np.sum((y_true == -1) & (y_pred == 1))
     fn = np.sum((y_true == 1) & (y_pred == -1))
-    return tp / (tp + 0.5 * (fp + fn)), tp/positive
+    return tp / (tp + 0.5 * (fp + fn))
 
 def accuracy(y_true, y_pred):
     """"
