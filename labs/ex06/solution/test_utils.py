@@ -14,7 +14,6 @@ def test(f):
         sys.stdout = io.StringIO()
 
         try:
-            print("Hey!")
             results: doctest.TestResults = doctest.DocTestRunner().run(test)
             output = sys.stdout.getvalue()
         finally:
