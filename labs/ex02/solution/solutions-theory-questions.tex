@@ -1,0 +1,114 @@
+\documentclass{../../tex_import/ETHuebung_english}
+
+\usepackage{../../tex_import/exercise_ml}
+
+\input{../../tex_import/definitions} %our customized .tex macros
+\usepackage{amsthm}
+\theoremstyle{plain}
+\newtheorem*{theorem*}{Definition}
+
+
+
+\begin{document}
+
+\makeheader{2, Sept 19, 2024}{Solutions to Theory Questions}
+
+\section{MAE Subgradient (Exercise 6)}  %solution by Khalil, Masha and Martin
+
+
+We recall below the definition of a subgradient seen in Lecture 2. 
+
+
+\begin{theorem*}[Subgradient]
+ A subgradient of a function $f:\R^d \to \R$ at a point $\wv$  is any vector $ \sv \in \R^d$ such that 
+\begin{equation}
+ \forall \zv, \;  f(\zv) \geq f(\wv) + \sv^\top( \zv - \wv). \label{eq:subgr}
+\end{equation}
+\end{theorem*}
+
+There can be more than one such vector $\sv$ (or none, for general nonconvex functions) at points where $f$ is not differentiable. The set of all subgradients, so the vectors satisfying property~\eqref{eq:subgr}, is denoted as
+\[
+    \partial f (\wv) = \{ \sv\; \lvert\; \sv \in \R^d \text{ such that } \forall \zv, \,  f(\zv) \geq f(\wv) + \sv^\top( \zv- \wv)\}.
+\]
+
+In this exercise, we ask you to derive the expression of \textit{a} subgradient of the MAE loss $\mathcal{L} (\wv): \R^2 \to \R$, $\mathcal{L} (\wv) = \frac{1}{N} \sum_{n=1}^{N} | y_n-\xv_n^\top \wv |$, which is not differentiable due to the presence of the absolute value function. You are therefore looking for a subgradient vector $\sv$ of the combined function such that
+\[
+\sv \in \partial \mathcal{L} (\wv) = \frac{1}{N} \sum_{n=1}^{N} \partial | y_n-\xv_n^\top \wv |.
+\]
+
+Note that we can write each summand of ${\mathcal{L}}(\wv)$ as $h(q_n(\wv))$, where $h: \R \rightarrow \R, \, h(e) := | e |$ and $q_n: \R^2 \to \R, \, q_n(\wv) := y_n - \xv_n^\top\wv$. As given in the annotated notes of Lecture 2, we can use the \textbf{chain-rule for subgradients} for $h(q(\wv))$, when the outer function $h$ is not differentiable and $q$ is differentiable. Then, any vector 
+\[\sv \in \partial h(q_n(\wv)) \cdot \nabla q_n(\wv)
+\] 
+is a subgradient of $h(q_n(\wv))$, where we can pick any element of $\partial h(q_n(\wv))$ and multiply it with $\nabla q_n(\wv)$. We immediately see that $\nabla q_n(\wv) = -\xv_n$.
+
+Regarding $\partial h$, we saw in Lecture 2  that the set of subgradients of  $h=| e |$ at a point $e$ is
+\begin{equation*}
+    \partial h (e) = \begin{cases} -1, \, & e < 0, \\ [-1, 1], \,& e = 0, \\ 1, \; &e > 0.\end{cases}
+\end{equation*}
+
+\medskip
+
+Then, a possible subgradient of  $h$ at a point $e$ is for example given by 
+\[
+ \sign(e) := \begin{cases} -1, \, & e < 0, \\ 0, \,& e = 0, \\ 1, \; &e > 0,\end{cases} 
+\]
+where we selected a single value in the interval $[-1, 1]$ from $\partial h(0)$ (namely the value $0$).
+
+\medskip 
+
+The expression of $\sv \in \partial h(q_n(\wv)) \cdot \nabla q_n(\wv)$ therefore is
+\begin{align*}
+\sv &=   =  \underbrace{\sign(y_n - \xv_n^\top\wv)}_{\textcolor{red}{\in} \partial h (q_n(\wv))} \cdot \underbrace{( - \xv_n )}_{\textcolor{red}{=} \nabla q_n(\wv)}. 
+\end{align*}
+
+We can then write a subgradient for the entire loss by summing up the subgradients we found for each $\mathcal{L}_n$, so
+\begin{align*}
+- \frac{1}{N} \sum_{n=1}^{N} \xv_n \cdot \sign(y_n - \xv_n^\top\wv) 
+            \ \textcolor{red}{\in} \ \partial \mathcal{L} (\wv).
+\end{align*}
+
+Finally, we can rewrite this using a more compact notation (which will be useful for your Python implementation):
+\[
+ = - \frac{1}{N} \vX^\top \cdot \sign(\ev),
+ \]
+where $\ev:=\yv-\vX\cdot \wv$ and $\sign$ applied element-wise to $\ev$, and $\vX$ is the matrix collecting all datapoints as its rows.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% OLD SOLUTION %%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%The subgradient for the function
+%	$h: \R \rightarrow \R, h(e) := | e |$
+%is given as 
+%\[
+%g: \R \rightarrow \left\{ -1,0,1  \right\} \ , g(e) := \sign(e).
+%\]
+%\\
+% The MAE cost function is defined as
+% $ \mathcal{L} (\wv) = \frac{1}{N} \sum_{n=1}^{N} | y_n-\xv_n^\top \wv | . $
+% \\ 
+% 
+% As given in the annotated lecture notes 2, we can use the \textbf{chain-rule for subgradients}, for $\mathcal{L}(\wv) := h(q(\wv))$, when the outer function $h$ is not differentiable, but $q$ is differentiable.
+%We write $\partial h(\yv)$ for the set of all subgradients of $h$ at $\yv$. 
+%Then any vector $\gv$ of the following form is a subgradient of $\mathcal{L}$ at $\wv$:
+%\[
+%\gv \in \partial h(q(\wv)) \cdot \nabla q(\wv)
+%\]
+%where we can pick any element of the left, and multiply with the vector on the right (the gradient).
+%\\
+%
+% We now find the (sub)gradient update for a single component $w_i$ and conclude by generalizing to the whole vector $\wv$. 
+%In our case here, $\partial h$ is the sign function.
+% Then for 
+%$ \frac{\partial \mathcal{L} (\wv)}{\partial w_i} = \frac{1}{N} \sum_{n=1}^{N} {\frac{\partial | y_n-\xv_n^\top \wv |}{\partial w_i}}$ we have that: 
+%
+%\[
+%\frac{\partial \mathcal{L} (\wv)}{\partial w_i} = \frac{1}{N} \sum_{n=1}^{N} {-(x_n)_i \sign(y_n-\xv_n^\top \wv)}.  %MJ: check
+%\]
+%
+%Finally we can conclude that $ \frac{-1}{N} \vX^\top \cdot \sign(\ev)$ is a subgradient to $\mathcal{L}$ at $\wv$, where $\ev:=\yv-\vX\cdot \wv$ and $\sign$ applied element-wise to $\ev$, and $\vX$ is the matrix collecting all datapoints as its rows.
+
+
+\end{document}
