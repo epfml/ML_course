@@ -1,0 +1,50 @@
+\documentclass{../tex_import/ETHuebung_english}
+
+\usepackage{../tex_import/exercise_ml}
+
+\input{../tex_import/definitions} %our customized .tex macros
+
+\begin{document}
+
+
+\makeheader{13, Dec 11, 2023}{GPT and GANs}
+
+
+\paragraph{Goals.}
+The goal of this exercise is to
+
+\begin{itemize}
+	\item Familiarize yourself with the GANs and GPT models.
+	\item Have time to discuss Project 2 with the assistants and teammates.
+\end{itemize}
+
+
+% \section{Theory Questions}
+% \ProblemV{1}{How to compute $\vU$ and $\vS$ efficiently}{ In class,
+% we saw that solving the eigenvector/value problem for the matrix $\vX
+% \vX^\top$ gives us a way to compute $\vU$ and $\vS$.  But in some
+% instances $D \gg N$.  In those cases, is there a way to accomplish
+% this computation more efficiently?  }
+
+% \ProblemV{2}{Positive semi-definite}{ Show that if $\vX$ is a $N
+% \times N$ symmetric matrix then the SVD has the form $\vU \vS
+% \vU^\top$, where $\vU$ is a $N \times N$ unitary matrix and $\vS$
+% is a $N \times N$ diagonal matrix with non-necessarily positive
+% entries. Show that if $\vX$ is positive semi-definite, then all
+% entries of $\vS$ are non-negative.  }
+
+\section{Train GPT to perform multiplications}
+The goal of this exercise is for you to get more familiar with transformers and and GPT. We will focus on a much simpler task than language modelling that can be trained in a few minutes. Specifically we will train a small GPT model from scratch to perform multiplications. We will use indidual characters as tokens. Doing multiplications directly for example in the form: "12*34=408" can be challenging. Even large language models are often not able to do this accurately for moderately large numbers, say 5 digits (although it is possible using \href{https://arxiv.org/abs/2311.14737}{special tricks}). Use the following Jupyter notebook \href{https://github.com/epfml/ML_course/blob/master/labs/ex13/template/gpt-multiplication.ipynb}{gpt-multiplication.ipynb} \\  \\ 
+Open in Colab: \href{https://colab.research.google.com/github/epfml/ML_course/blob/master/labs/ex13/template/gpt-multiplication.ipynb}{colab.research.google.com/github/epfml/ML\_course/blob/master/labs/ex13/template/gpt-multiplication.ipynb}. This gives you access to a free GPU. 
+
+\section{Generative Adversarial Networks}
+The goal of this exercise is for you to get more familiar with GANs and generative models.
+Recommended reading: explore how to implement a simple GAN in PyTorch using the Jupyter notebook \href{https://github.com/epfml/ML_course/tree/master/labs/ex12/template/gans.ipynb}{gans.ipynb}:
+
+\begin{itemize}
+	\item Open in Colab: \href{https://colab.research.google.com/github/epfml/ML_course/blob/master/labs/ex13/template/gans.ipynb}{colab.research.google.com/github/epfml/ML\_course/blob/master/labs/ex13/template/gans.ipynb}. This gives you access to a free GPU. 
+	\item Change the `runtime type' to GPU under `Runtime $\to$ Change runtime type'.
+\end{itemize}
+
+
+\end{document}
